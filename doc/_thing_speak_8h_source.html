@@ -1,10 +1,15 @@
+<!--   ThingSpeak(TM) Communication Library For Arduino
+  ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for building
+  systems that collect, analyze, and react to their environments.
+  Copyright 2015, The MathWorks, Inc.
+  See the accompaning licence file for licensing information.-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>ThingSpeak Communication Library for Arduino: ThingSpeak/src/ThingSpeak.h Source File</title>
+<title>ThingSpeak Communication Library For Arduino</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -13,14 +18,14 @@
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
-<table cellspacing="0" cellpadding="0">
+<table cellspacing="0" cellpadding="0" width="100%">
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">ThingSpeak Communication Library for Arduino
-   &#160;<span id="projectnumber">1.0.0</span>
-   </div>
+   <div id="projectname">ThingSpeak Communication Library for Arduino</div>
+   <div id="projectbrief">Enables an Arduino or other compatible hardware to write or read data to or from ThingSpeak&trade;</div>
   </td>
+  <td valign="middle" align="right" id="projectlogo"><img alt="Logo" src="ThingSpeakLogo.jpg"/></td>
  </tr>
  </tbody>
 </table>
@@ -45,81 +50,87 @@
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">  ThingSpeak(TM) Communication Library For Arduino</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for building</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  systems that collect, analyze, and react to their environments.</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">  </span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  Copyright 2015, The MathWorks, Inc.</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> </span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  See the accompaning licence.txt file for licensing information.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#ifndef ThingSpeak_h</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#define ThingSpeak_h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">  Enables an Arduino or other compatible hardware to write or read data to or from ThingSpeak,</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">  an open data platform for the Internet of Things with MATLAB analytics and visualization. </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">  ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for building</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">  systems that collect, analyze, and react to their environments.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">  </span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">  Copyright 2015, The MathWorks, Inc.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> </span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">  See the accompaning licence file for licensing information.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#ifndef ThingSpeak_h</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#define ThingSpeak_h</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//#define PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//#define PRINT_HTTP</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//#define PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//#define PRINT_HTTP</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#ifdef SPARK</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// Create platform defines for Particle devices</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">    #if PLATFORM_ID == 6</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">        #define PARTICLE_PHOTON</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">    #elif PLATFORM_ID == 0</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">        #define PARTICLE_CORE</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">    #endif</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">    #include &quot;math.h&quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">    #include &quot;application.h&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">    #ifdef PARTICLE_PHOTON</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span>* dtoa(<span class="keywordtype">double</span> val, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> prec, <span class="keywordtype">char</span> *sout);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">// On spark photon, There is no itoa, so map to ltoa.</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">        #include &quot;string_convert.h&quot;</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">        #define itoa ltoa</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">    #else</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// On spark core, a long and an int are equivalent, and so there&#39;s no &quot;ltoa&quot; function defined.  Map it to itoa.</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span> * itoa(<span class="keywordtype">int</span> a, <span class="keywordtype">char</span>* buffer, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> radix);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">        #define ltoa itoa</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span> *dtostrf (<span class="keywordtype">double</span> val, <span class="keywordtype">signed</span> <span class="keywordtype">char</span> width, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> prec, <span class="keywordtype">char</span> *sout);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">    #endif</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">    #ifdef ARDUINO_ARCH_AVR</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">      #include &quot;Arduino.h&quot;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">      #include &lt;Client.h&gt;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">    #else</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">      #error Only Arduino Yun, Uno/Mega/Due with either Wired or wi-fi Ethernet shield, and Spark Core/Photon are supported.</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">    #endif</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#define THINGSPEAK_URL &quot;api.thingspeak.com&quot;</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#define THINGSPEAK_IPADDRESS IPAddress(184,106,153,149)</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#define THINGSPEAK_PORT_NUMBER 80</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#ifdef ARDUINO_ARCH_AVR</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">    #ifdef ARDUINO_AVR_YUN</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">        #define TS_USER_AGENT &quot;tslib-arduino/1.0 (arduino uno or mega)&quot;</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">    #else</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">        #define TS_USER_AGENT &quot;tslib-arduino/1.0 (arduino yun)&quot;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">    #endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#ifdef SPARK</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">    #define TS_USER_AGENT &quot;tslib-arduino/1.0 (particle core or photon)&quot;</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">    #define SPARK_PUBLISH_TTL 60 // Spark &quot;time to live&quot; for published messages</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">    #define SPARK_PUBLISH_TOPIC &quot;thingspeak-debug&quot;</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#define FIELDNUM_MIN 1</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#define FIELDNUM_MAX 8</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#define FIELDLENGTH_MAX 255  // Max length for a field in ThingSpeak is 255 bytes (UTF-8)</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#define OK_SUCCESS              200     // OK / Success</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#define ERR_BADAPIKEY           400     // Incorrect API key (or invalid ThingSpeak server address)</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#define ERR_BADURL              404     // Incorrect API key (or invalid ThingSpeak server address)</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#define ERR_OUT_OF_RANGE        -101    // Value is out of range or string is too long (&gt; 255 bytes)</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#define ERR_INVALID_FIELD_NUM   -201    // Invalid field number specified</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#define ERR_SETFIELD_NOT_CALLED -210    // setField() was not called before writeFields()</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#define ERR_CONNECT_FAILED      -301    // Failed to connect to ThingSpeak</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#define ERR_UNEXPECTED_FAIL     -302    // Unexpected failure during write to ThingSpeak</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#define ERR_BAD_RESPONSE        -303    // Unable to parse response</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#ifdef SPARK</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Create platform defines for Particle devices</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">    #if PLATFORM_ID == 6</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">        #define PARTICLE_PHOTON</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">    #elif PLATFORM_ID == 0</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">        #define PARTICLE_CORE</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">    #include &quot;math.h&quot;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">    #include &quot;application.h&quot;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">    #ifdef PARTICLE_PHOTON</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span>* dtoa(<span class="keywordtype">double</span> val, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> prec, <span class="keywordtype">char</span> *sout);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">// On spark photon, There is no itoa, so map to ltoa.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">        #include &quot;string_convert.h&quot;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">        #define itoa ltoa</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">    #else</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">// On spark core, a long and an int are equivalent, and so there&#39;s no &quot;ltoa&quot; function defined.  Map it to itoa.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span> * itoa(<span class="keywordtype">int</span> a, <span class="keywordtype">char</span>* buffer, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> radix);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">        #define ltoa itoa</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">extern</span> <span class="keywordtype">char</span> *dtostrf (<span class="keywordtype">double</span> val, <span class="keywordtype">signed</span> <span class="keywordtype">char</span> width, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> prec, <span class="keywordtype">char</span> *sout);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">    #ifdef ARDUINO_ARCH_AVR</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">      #include &quot;Arduino.h&quot;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">      #include &lt;Client.h&gt;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">    #else</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">      #error Only Arduino Yun, Uno/Mega/Due with either Wired or wi-fi Ethernet shield, and Spark Core/Photon are supported.</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#define THINGSPEAK_URL &quot;api.thingspeak.com&quot;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#define THINGSPEAK_IPADDRESS IPAddress(184,106,153,149)</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#define THINGSPEAK_PORT_NUMBER 80</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#ifdef ARDUINO_ARCH_AVR</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">    #ifdef ARDUINO_AVR_YUN</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">        #define TS_USER_AGENT &quot;tslib-arduino/1.0 (arduino uno or mega)&quot;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">    #else</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">        #define TS_USER_AGENT &quot;tslib-arduino/1.0 (arduino yun)&quot;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#ifdef SPARK</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">    #define TS_USER_AGENT &quot;tslib-arduino/1.0 (particle core or photon)&quot;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">    #define SPARK_PUBLISH_TTL 60 // Spark &quot;time to live&quot; for published messages</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">    #define SPARK_PUBLISH_TOPIC &quot;thingspeak-debug&quot;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#define FIELDNUM_MIN 1</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#define FIELDNUM_MAX 8</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#define FIELDLENGTH_MAX 255  // Max length for a field in ThingSpeak is 255 bytes (UTF-8)</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#define TIMEOUT_MS_SERVERRESPONSE 5000  // Wait up to five seconds for server to respond</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#define OK_SUCCESS              200     // OK / Success</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#define ERR_BADAPIKEY           400     // Incorrect API key (or invalid ThingSpeak server address)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#define ERR_BADURL              404     // Incorrect API key (or invalid ThingSpeak server address)</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#define ERR_OUT_OF_RANGE        -101    // Value is out of range or string is too long (&gt; 255 bytes)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#define ERR_INVALID_FIELD_NUM   -201    // Invalid field number specified</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#define ERR_SETFIELD_NOT_CALLED -210    // setField() was not called before writeFields()</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#define ERR_CONNECT_FAILED      -301    // Failed to connect to ThingSpeak</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#define ERR_UNEXPECTED_FAIL     -302    // Unexpected failure during write to ThingSpeak</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#define ERR_BAD_RESPONSE        -303    // Unable to parse response</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#define ERR_TIMEOUT             -304    // Timeout waiting for server to respond</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#define ERR_NOT_INSERTED        -401    // Point was not inserted (most probable cause is the rate limit of once every 15 seconds)</span></div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="class_thing_speak_class.html">  123</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thing_speak_class.html">ThingSpeakClass</a></div>
@@ -554,254 +565,264 @@
 <div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;        <span class="keywordflow">return</span> String(<span class="stringliteral">&quot;&quot;</span>) + content;</div>
 <div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;    };</div>
 <div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160;    </div>
-<div class="line"><a name="l01216"></a><span class="lineno"><a class="line" href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577"> 1216</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577">getLastReadStatus</a>()</div>
-<div class="line"><a name="l01217"></a><span class="lineno"> 1217</span>&#160;    {</div>
-<div class="line"><a name="l01218"></a><span class="lineno"> 1218</span>&#160;        <span class="keywordflow">return</span> this-&gt;lastReadStatus;</div>
-<div class="line"><a name="l01219"></a><span class="lineno"> 1219</span>&#160;    };</div>
-<div class="line"><a name="l01220"></a><span class="lineno"> 1220</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;</div>
-<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;    <span class="keywordtype">int</span> abortWriteRaw()</div>
-<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;    {</div>
-<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;        this-&gt;client-&gt;stop();</div>
-<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;        <span class="keywordflow">return</span> ERR_UNEXPECTED_FAIL;</div>
-<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;    }</div>
-<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;</div>
-<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;    String abortReadRaw()</div>
-<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;    {</div>
-<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;        this-&gt;client-&gt;stop();</div>
-<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;            Serial.println(<span class="stringliteral">&quot;ReadRaw abort - disconnected.&quot;</span>);</div>
-<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;        this-&gt;lastReadStatus = ERR_UNEXPECTED_FAIL;</div>
-<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;        <span class="keywordflow">return</span> String(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;    }</div>
-<div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160;</div>
-<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;    <span class="keywordtype">void</span> setServer(<span class="keyword">const</span> <span class="keywordtype">char</span> * customHostName, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port)</div>
-<div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;    {</div>
-<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (URL: \&quot;&quot;</span>); Serial.print(customHostName); Serial.println(<span class="stringliteral">&quot;\&quot;)&quot;</span>);</div>
-<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;        this-&gt;customIP = INADDR_NONE;</div>
-<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;        this-&gt;customHostName = customHostName;</div>
-<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;        this-&gt;port = port;</div>
-<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;    };</div>
-<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;</div>
-<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;    <span class="keywordtype">void</span> setServer(IPAddress customIP, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port)</div>
-<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;    {</div>
-<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (IP: \&quot;&quot;</span>); Serial.print(customIP); Serial.println(<span class="stringliteral">&quot;\&quot;)&quot;</span>);</div>
-<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;        this-&gt;customIP = customIP;</div>
-<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;        this-&gt;customHostName = NULL;</div>
-<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;        this-&gt;port = port;</div>
-<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160;    };</div>
-<div class="line"><a name="l01257"></a><span class="lineno"> 1257</span>&#160;</div>
-<div class="line"><a name="l01258"></a><span class="lineno"> 1258</span>&#160;    <span class="keywordtype">void</span> setServer()</div>
-<div class="line"><a name="l01259"></a><span class="lineno"> 1259</span>&#160;    {</div>
-<div class="line"><a name="l01260"></a><span class="lineno"> 1260</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (default)&quot;</span>);</div>
-<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;        this-&gt;customIP = INADDR_NONE;</div>
-<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;        this-&gt;customHostName = NULL;</div>
-<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;        this-&gt;port = THINGSPEAK_PORT_NUMBER;</div>
-<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;    };</div>
-<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;</div>
-<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;    <span class="keywordtype">void</span> setClient(Client * client) {this-&gt;client = client;};</div>
-<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;</div>
-<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;    Client * client = NULL;</div>
-<div class="line"><a name="l01271"></a><span class="lineno"> 1271</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * customHostName = NULL;</div>
-<div class="line"><a name="l01272"></a><span class="lineno"> 1272</span>&#160;    IPAddress customIP = INADDR_NONE;</div>
-<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port = THINGSPEAK_PORT_NUMBER;</div>
-<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160;    String nextWriteField[8];</div>
-<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;    <span class="keywordtype">float</span> nextWriteLatitude;</div>
-<div class="line"><a name="l01276"></a><span class="lineno"> 1276</span>&#160;    <span class="keywordtype">float</span> nextWriteLongitude;</div>
-<div class="line"><a name="l01277"></a><span class="lineno"> 1277</span>&#160;    <span class="keywordtype">float</span> nextWriteElevation;</div>
-<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160;    <span class="keywordtype">int</span> lastReadStatus;</div>
-<div class="line"><a name="l01279"></a><span class="lineno"> 1279</span>&#160;</div>
-<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;    <span class="keywordtype">bool</span> connectThingSpeak()</div>
-<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;    {</div>
-<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;        <span class="keywordtype">bool</span> connectSuccess = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160;        <span class="keywordflow">if</span>(this-&gt;customIP == INADDR_NONE &amp;&amp; NULL == this-&gt;customHostName)</div>
-<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;        {</div>
-<div class="line"><a name="l01285"></a><span class="lineno"> 1285</span>&#160;<span class="preprocessor">            #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;                Serial.print(<span class="stringliteral">&quot;               Connect to default ThingSpeak URL...&quot;</span>);</div>
-<div class="line"><a name="l01287"></a><span class="lineno"> 1287</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01288"></a><span class="lineno"> 1288</span>&#160;            connectSuccess = client-&gt;connect(THINGSPEAK_URL,THINGSPEAK_PORT_NUMBER);</div>
-<div class="line"><a name="l01289"></a><span class="lineno"> 1289</span>&#160;            <span class="keywordflow">if</span>(!connectSuccess)</div>
-<div class="line"><a name="l01290"></a><span class="lineno"> 1290</span>&#160;            {</div>
-<div class="line"><a name="l01291"></a><span class="lineno"> 1291</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01292"></a><span class="lineno"> 1292</span>&#160;                    Serial.print(<span class="stringliteral">&quot;Failed. Try default IP...&quot;</span>);</div>
-<div class="line"><a name="l01293"></a><span class="lineno"> 1293</span>&#160;<span class="preprocessor">                #endif</span></div>
-<div class="line"><a name="l01294"></a><span class="lineno"> 1294</span>&#160;                connectSuccess = client-&gt;connect(THINGSPEAK_IPADDRESS,THINGSPEAK_PORT_NUMBER);</div>
-<div class="line"><a name="l01295"></a><span class="lineno"> 1295</span>&#160;            }</div>
-<div class="line"><a name="l01296"></a><span class="lineno"> 1296</span>&#160;       }</div>
-<div class="line"><a name="l01297"></a><span class="lineno"> 1297</span>&#160;       <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01298"></a><span class="lineno"> 1298</span>&#160;       {</div>
-<div class="line"><a name="l01299"></a><span class="lineno"> 1299</span>&#160;            <span class="keywordflow">if</span>(!(this-&gt;customIP == INADDR_NONE))</div>
-<div class="line"><a name="l01300"></a><span class="lineno"> 1300</span>&#160;            {</div>
-<div class="line"><a name="l01301"></a><span class="lineno"> 1301</span>&#160;                <span class="comment">// Connect to the server on port 80 (HTTP) at the customIP address</span></div>
-<div class="line"><a name="l01302"></a><span class="lineno"> 1302</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01303"></a><span class="lineno"> 1303</span>&#160;                  Serial.print(<span class="stringliteral">&quot;               Connect to &quot;</span>);Serial.print(this-&gt;customIP);Serial.print(<span class="stringliteral">&quot;...&quot;</span>);</div>
-<div class="line"><a name="l01304"></a><span class="lineno"> 1304</span>&#160;<span class="preprocessor">                #endif</span></div>
-<div class="line"><a name="l01305"></a><span class="lineno"> 1305</span>&#160;                connectSuccess = client-&gt;connect(this-&gt;customIP,this-&gt;port);</div>
-<div class="line"><a name="l01306"></a><span class="lineno"> 1306</span>&#160;            }</div>
-<div class="line"><a name="l01307"></a><span class="lineno"> 1307</span>&#160;            <span class="keywordflow">if</span>(NULL != this-&gt;customHostName)</div>
-<div class="line"><a name="l01308"></a><span class="lineno"> 1308</span>&#160;            {</div>
-<div class="line"><a name="l01309"></a><span class="lineno"> 1309</span>&#160;                <span class="comment">// Connect to the server on port 80 (HTTP) at the URL address</span></div>
-<div class="line"><a name="l01310"></a><span class="lineno"> 1310</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01311"></a><span class="lineno"> 1311</span>&#160;<span class="preprocessor">                  #ifdef SPARK</span></div>
-<div class="line"><a name="l01312"></a><span class="lineno"> 1312</span>&#160;                    Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Attempt Connect to URL &quot;</span> + String(this-&gt;customHostName), SPARK_PUBLISH_TTL, PRIVATE);</div>
-<div class="line"><a name="l01313"></a><span class="lineno"> 1313</span>&#160;<span class="preprocessor">                  #else</span></div>
-<div class="line"><a name="l01314"></a><span class="lineno"> 1314</span>&#160;                    Serial.print(<span class="stringliteral">&quot;               Connect to &quot;</span>);Serial.print(this-&gt;customHostName);Serial.print(<span class="stringliteral">&quot; ...&quot;</span>);</div>
-<div class="line"><a name="l01315"></a><span class="lineno"> 1315</span>&#160;<span class="preprocessor">                  #endif</span></div>
-<div class="line"><a name="l01316"></a><span class="lineno"> 1316</span>&#160;<span class="preprocessor">                #endif</span></div>
-<div class="line"><a name="l01317"></a><span class="lineno"> 1317</span>&#160;                connectSuccess = client-&gt;connect(customHostName,this-&gt;port);</div>
-<div class="line"><a name="l01318"></a><span class="lineno"> 1318</span>&#160;            }</div>
-<div class="line"><a name="l01319"></a><span class="lineno"> 1319</span>&#160;        }</div>
-<div class="line"><a name="l01320"></a><span class="lineno"> 1320</span>&#160;</div>
-<div class="line"><a name="l01321"></a><span class="lineno"> 1321</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
-<div class="line"><a name="l01322"></a><span class="lineno"> 1322</span>&#160;        <span class="keywordflow">if</span> (connectSuccess)</div>
-<div class="line"><a name="l01323"></a><span class="lineno"> 1323</span>&#160;        {</div>
-<div class="line"><a name="l01324"></a><span class="lineno"> 1324</span>&#160;<span class="preprocessor">            #ifdef SPARK</span></div>
-<div class="line"><a name="l01325"></a><span class="lineno"> 1325</span>&#160;              Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Connection Success&quot;</span>, SPARK_PUBLISH_TTL, PRIVATE);</div>
-<div class="line"><a name="l01326"></a><span class="lineno"> 1326</span>&#160;<span class="preprocessor">            #else</span></div>
-<div class="line"><a name="l01327"></a><span class="lineno"> 1327</span>&#160;              Serial.println(<span class="stringliteral">&quot;Success.&quot;</span>);</div>
-<div class="line"><a name="l01328"></a><span class="lineno"> 1328</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01329"></a><span class="lineno"> 1329</span>&#160;        }</div>
-<div class="line"><a name="l01330"></a><span class="lineno"> 1330</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01331"></a><span class="lineno"> 1331</span>&#160;        {</div>
-<div class="line"><a name="l01332"></a><span class="lineno"> 1332</span>&#160;<span class="preprocessor">            #ifdef SPARK</span></div>
-<div class="line"><a name="l01333"></a><span class="lineno"> 1333</span>&#160;              Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Connection Failure&quot;</span>, SPARK_PUBLISH_TTL, PRIVATE);</div>
-<div class="line"><a name="l01334"></a><span class="lineno"> 1334</span>&#160;<span class="preprocessor">            #else</span></div>
-<div class="line"><a name="l01335"></a><span class="lineno"> 1335</span>&#160;              Serial.println(<span class="stringliteral">&quot;Failed.&quot;</span>);</div>
-<div class="line"><a name="l01336"></a><span class="lineno"> 1336</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01337"></a><span class="lineno"> 1337</span>&#160;        }</div>
-<div class="line"><a name="l01338"></a><span class="lineno"> 1338</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01339"></a><span class="lineno"> 1339</span>&#160;        <span class="keywordflow">return</span> connectSuccess;</div>
-<div class="line"><a name="l01340"></a><span class="lineno"> 1340</span>&#160;    };</div>
-<div class="line"><a name="l01341"></a><span class="lineno"> 1341</span>&#160;</div>
-<div class="line"><a name="l01342"></a><span class="lineno"> 1342</span>&#160;    <span class="keywordtype">bool</span> writeHTTPHeader(<span class="keyword">const</span> <span class="keywordtype">char</span> * APIKey)</div>
-<div class="line"><a name="l01343"></a><span class="lineno"> 1343</span>&#160;    {</div>
-<div class="line"><a name="l01344"></a><span class="lineno"> 1344</span>&#160;        <span class="keywordflow">if</span>(NULL != this-&gt;customHostName)</div>
-<div class="line"><a name="l01345"></a><span class="lineno"> 1345</span>&#160;        {</div>
-<div class="line"><a name="l01346"></a><span class="lineno"> 1346</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Host: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01347"></a><span class="lineno"> 1347</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(this-&gt;customHostName)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01348"></a><span class="lineno"> 1348</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01349"></a><span class="lineno"> 1349</span>&#160;        }</div>
-<div class="line"><a name="l01350"></a><span class="lineno"> 1350</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01351"></a><span class="lineno"> 1351</span>&#160;        {</div>
-<div class="line"><a name="l01352"></a><span class="lineno"> 1352</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Host: api.thingspeak.com\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01353"></a><span class="lineno"> 1353</span>&#160;        }</div>
-<div class="line"><a name="l01354"></a><span class="lineno"> 1354</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Connection: close\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01355"></a><span class="lineno"> 1355</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;User-Agent: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01356"></a><span class="lineno"> 1356</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(TS_USER_AGENT)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01357"></a><span class="lineno"> 1357</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01358"></a><span class="lineno"> 1358</span>&#160;        <span class="keywordflow">if</span>(NULL != APIKey)</div>
-<div class="line"><a name="l01359"></a><span class="lineno"> 1359</span>&#160;        {</div>
-<div class="line"><a name="l01360"></a><span class="lineno"> 1360</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;X-THINGSPEAKAPIKEY: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01361"></a><span class="lineno"> 1361</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(APIKey)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01362"></a><span class="lineno"> 1362</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l01363"></a><span class="lineno"> 1363</span>&#160;        }</div>
-<div class="line"><a name="l01364"></a><span class="lineno"> 1364</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l01365"></a><span class="lineno"> 1365</span>&#160;    };</div>
-<div class="line"><a name="l01366"></a><span class="lineno"> 1366</span>&#160;</div>
-<div class="line"><a name="l01367"></a><span class="lineno"> 1367</span>&#160;    <span class="keywordtype">int</span> getHTTPResponse(String &amp; response)</div>
-<div class="line"><a name="l01368"></a><span class="lineno"> 1368</span>&#160;    {</div>
-<div class="line"><a name="l01369"></a><span class="lineno"> 1369</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;HTTP/1.1&quot;</span>)))</div>
-<div class="line"><a name="l01370"></a><span class="lineno"> 1370</span>&#160;        {</div>
-<div class="line"><a name="l01371"></a><span class="lineno"> 1371</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01372"></a><span class="lineno"> 1372</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find HTTP/1.1&quot;</span>);</div>
-<div class="line"><a name="l01373"></a><span class="lineno"> 1373</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01374"></a><span class="lineno"> 1374</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE; <span class="comment">// Couldn&#39;t parse response (didn&#39;t find HTTP/1.1)</span></div>
-<div class="line"><a name="l01375"></a><span class="lineno"> 1375</span>&#160;        }</div>
-<div class="line"><a name="l01376"></a><span class="lineno"> 1376</span>&#160;        <span class="keywordtype">int</span> status = client-&gt;parseInt();</div>
-<div class="line"><a name="l01377"></a><span class="lineno"> 1377</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01378"></a><span class="lineno"> 1378</span>&#160;            Serial.print(<span class="stringliteral">&quot;Got Status of &quot;</span>);Serial.println(status);</div>
-<div class="line"><a name="l01379"></a><span class="lineno"> 1379</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01380"></a><span class="lineno"> 1380</span>&#160;        <span class="keywordflow">if</span>(status != OK_SUCCESS)</div>
+<div class="line"><a name="l01217"></a><span class="lineno"><a class="line" href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577"> 1217</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577">getLastReadStatus</a>()</div>
+<div class="line"><a name="l01218"></a><span class="lineno"> 1218</span>&#160;    {</div>
+<div class="line"><a name="l01219"></a><span class="lineno"> 1219</span>&#160;        <span class="keywordflow">return</span> this-&gt;lastReadStatus;</div>
+<div class="line"><a name="l01220"></a><span class="lineno"> 1220</span>&#160;    };</div>
+<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;</div>
+<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;    <span class="keywordtype">int</span> abortWriteRaw()</div>
+<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;    {</div>
+<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;        this-&gt;client-&gt;stop();</div>
+<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;        <span class="keywordflow">return</span> ERR_UNEXPECTED_FAIL;</div>
+<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;    }</div>
+<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;</div>
+<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;    String abortReadRaw()</div>
+<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;    {</div>
+<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;        this-&gt;client-&gt;stop();</div>
+<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;            Serial.println(<span class="stringliteral">&quot;ReadRaw abort - disconnected.&quot;</span>);</div>
+<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;        this-&gt;lastReadStatus = ERR_UNEXPECTED_FAIL;</div>
+<div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;        <span class="keywordflow">return</span> String(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160;    }</div>
+<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;</div>
+<div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;    <span class="keywordtype">void</span> setServer(<span class="keyword">const</span> <span class="keywordtype">char</span> * customHostName, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port)</div>
+<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;    {</div>
+<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (URL: \&quot;&quot;</span>); Serial.print(customHostName); Serial.println(<span class="stringliteral">&quot;\&quot;)&quot;</span>);</div>
+<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;        this-&gt;customIP = INADDR_NONE;</div>
+<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;        this-&gt;customHostName = customHostName;</div>
+<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;        this-&gt;port = port;</div>
+<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;    };</div>
+<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;</div>
+<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;    <span class="keywordtype">void</span> setServer(IPAddress customIP, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port)</div>
+<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;    {</div>
+<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (IP: \&quot;&quot;</span>); Serial.print(customIP); Serial.println(<span class="stringliteral">&quot;\&quot;)&quot;</span>);</div>
+<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;        this-&gt;customIP = customIP;</div>
+<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;        this-&gt;customHostName = NULL;</div>
+<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160;        this-&gt;port = port;</div>
+<div class="line"><a name="l01257"></a><span class="lineno"> 1257</span>&#160;    };</div>
+<div class="line"><a name="l01258"></a><span class="lineno"> 1258</span>&#160;</div>
+<div class="line"><a name="l01259"></a><span class="lineno"> 1259</span>&#160;    <span class="keywordtype">void</span> setServer()</div>
+<div class="line"><a name="l01260"></a><span class="lineno"> 1260</span>&#160;    {</div>
+<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;            Serial.print(<span class="stringliteral">&quot;ts::setServer  (default)&quot;</span>);</div>
+<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;        this-&gt;customIP = INADDR_NONE;</div>
+<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;        this-&gt;customHostName = NULL;</div>
+<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;        this-&gt;port = THINGSPEAK_PORT_NUMBER;</div>
+<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;    };</div>
+<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;</div>
+<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;    <span class="keywordtype">void</span> setClient(Client * client) {this-&gt;client = client;};</div>
+<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;</div>
+<div class="line"><a name="l01271"></a><span class="lineno"> 1271</span>&#160;    Client * client = NULL;</div>
+<div class="line"><a name="l01272"></a><span class="lineno"> 1272</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * customHostName = NULL;</div>
+<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;    IPAddress customIP = INADDR_NONE;</div>
+<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> port = THINGSPEAK_PORT_NUMBER;</div>
+<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;    String nextWriteField[8];</div>
+<div class="line"><a name="l01276"></a><span class="lineno"> 1276</span>&#160;    <span class="keywordtype">float</span> nextWriteLatitude;</div>
+<div class="line"><a name="l01277"></a><span class="lineno"> 1277</span>&#160;    <span class="keywordtype">float</span> nextWriteLongitude;</div>
+<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160;    <span class="keywordtype">float</span> nextWriteElevation;</div>
+<div class="line"><a name="l01279"></a><span class="lineno"> 1279</span>&#160;    <span class="keywordtype">int</span> lastReadStatus;</div>
+<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;</div>
+<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;    <span class="keywordtype">bool</span> connectThingSpeak()</div>
+<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;    {</div>
+<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160;        <span class="keywordtype">bool</span> connectSuccess = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;        <span class="keywordflow">if</span>(this-&gt;customIP == INADDR_NONE &amp;&amp; NULL == this-&gt;customHostName)</div>
+<div class="line"><a name="l01285"></a><span class="lineno"> 1285</span>&#160;        {</div>
+<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;<span class="preprocessor">            #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01287"></a><span class="lineno"> 1287</span>&#160;                Serial.print(<span class="stringliteral">&quot;               Connect to default ThingSpeak URL...&quot;</span>);</div>
+<div class="line"><a name="l01288"></a><span class="lineno"> 1288</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01289"></a><span class="lineno"> 1289</span>&#160;            connectSuccess = client-&gt;connect(THINGSPEAK_URL,THINGSPEAK_PORT_NUMBER);</div>
+<div class="line"><a name="l01290"></a><span class="lineno"> 1290</span>&#160;            <span class="keywordflow">if</span>(!connectSuccess)</div>
+<div class="line"><a name="l01291"></a><span class="lineno"> 1291</span>&#160;            {</div>
+<div class="line"><a name="l01292"></a><span class="lineno"> 1292</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01293"></a><span class="lineno"> 1293</span>&#160;                    Serial.print(<span class="stringliteral">&quot;Failed. Try default IP...&quot;</span>);</div>
+<div class="line"><a name="l01294"></a><span class="lineno"> 1294</span>&#160;<span class="preprocessor">                #endif</span></div>
+<div class="line"><a name="l01295"></a><span class="lineno"> 1295</span>&#160;                connectSuccess = client-&gt;connect(THINGSPEAK_IPADDRESS,THINGSPEAK_PORT_NUMBER);</div>
+<div class="line"><a name="l01296"></a><span class="lineno"> 1296</span>&#160;            }</div>
+<div class="line"><a name="l01297"></a><span class="lineno"> 1297</span>&#160;       }</div>
+<div class="line"><a name="l01298"></a><span class="lineno"> 1298</span>&#160;       <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01299"></a><span class="lineno"> 1299</span>&#160;       {</div>
+<div class="line"><a name="l01300"></a><span class="lineno"> 1300</span>&#160;            <span class="keywordflow">if</span>(!(this-&gt;customIP == INADDR_NONE))</div>
+<div class="line"><a name="l01301"></a><span class="lineno"> 1301</span>&#160;            {</div>
+<div class="line"><a name="l01302"></a><span class="lineno"> 1302</span>&#160;                <span class="comment">// Connect to the server on port 80 (HTTP) at the customIP address</span></div>
+<div class="line"><a name="l01303"></a><span class="lineno"> 1303</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01304"></a><span class="lineno"> 1304</span>&#160;                  Serial.print(<span class="stringliteral">&quot;               Connect to &quot;</span>);Serial.print(this-&gt;customIP);Serial.print(<span class="stringliteral">&quot;...&quot;</span>);</div>
+<div class="line"><a name="l01305"></a><span class="lineno"> 1305</span>&#160;<span class="preprocessor">                #endif</span></div>
+<div class="line"><a name="l01306"></a><span class="lineno"> 1306</span>&#160;                connectSuccess = client-&gt;connect(this-&gt;customIP,this-&gt;port);</div>
+<div class="line"><a name="l01307"></a><span class="lineno"> 1307</span>&#160;            }</div>
+<div class="line"><a name="l01308"></a><span class="lineno"> 1308</span>&#160;            <span class="keywordflow">if</span>(NULL != this-&gt;customHostName)</div>
+<div class="line"><a name="l01309"></a><span class="lineno"> 1309</span>&#160;            {</div>
+<div class="line"><a name="l01310"></a><span class="lineno"> 1310</span>&#160;                <span class="comment">// Connect to the server on port 80 (HTTP) at the URL address</span></div>
+<div class="line"><a name="l01311"></a><span class="lineno"> 1311</span>&#160;<span class="preprocessor">                #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01312"></a><span class="lineno"> 1312</span>&#160;<span class="preprocessor">                  #ifdef SPARK</span></div>
+<div class="line"><a name="l01313"></a><span class="lineno"> 1313</span>&#160;                    Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Attempt Connect to URL &quot;</span> + String(this-&gt;customHostName), SPARK_PUBLISH_TTL, PRIVATE);</div>
+<div class="line"><a name="l01314"></a><span class="lineno"> 1314</span>&#160;<span class="preprocessor">                  #else</span></div>
+<div class="line"><a name="l01315"></a><span class="lineno"> 1315</span>&#160;                    Serial.print(<span class="stringliteral">&quot;               Connect to &quot;</span>);Serial.print(this-&gt;customHostName);Serial.print(<span class="stringliteral">&quot; ...&quot;</span>);</div>
+<div class="line"><a name="l01316"></a><span class="lineno"> 1316</span>&#160;<span class="preprocessor">                  #endif</span></div>
+<div class="line"><a name="l01317"></a><span class="lineno"> 1317</span>&#160;<span class="preprocessor">                #endif</span></div>
+<div class="line"><a name="l01318"></a><span class="lineno"> 1318</span>&#160;                connectSuccess = client-&gt;connect(customHostName,this-&gt;port);</div>
+<div class="line"><a name="l01319"></a><span class="lineno"> 1319</span>&#160;            }</div>
+<div class="line"><a name="l01320"></a><span class="lineno"> 1320</span>&#160;        }</div>
+<div class="line"><a name="l01321"></a><span class="lineno"> 1321</span>&#160;</div>
+<div class="line"><a name="l01322"></a><span class="lineno"> 1322</span>&#160;<span class="preprocessor">        #ifdef PRINT_DEBUG_MESSAGES</span></div>
+<div class="line"><a name="l01323"></a><span class="lineno"> 1323</span>&#160;        <span class="keywordflow">if</span> (connectSuccess)</div>
+<div class="line"><a name="l01324"></a><span class="lineno"> 1324</span>&#160;        {</div>
+<div class="line"><a name="l01325"></a><span class="lineno"> 1325</span>&#160;<span class="preprocessor">            #ifdef SPARK</span></div>
+<div class="line"><a name="l01326"></a><span class="lineno"> 1326</span>&#160;              Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Connection Success&quot;</span>, SPARK_PUBLISH_TTL, PRIVATE);</div>
+<div class="line"><a name="l01327"></a><span class="lineno"> 1327</span>&#160;<span class="preprocessor">            #else</span></div>
+<div class="line"><a name="l01328"></a><span class="lineno"> 1328</span>&#160;              Serial.println(<span class="stringliteral">&quot;Success.&quot;</span>);</div>
+<div class="line"><a name="l01329"></a><span class="lineno"> 1329</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01330"></a><span class="lineno"> 1330</span>&#160;        }</div>
+<div class="line"><a name="l01331"></a><span class="lineno"> 1331</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01332"></a><span class="lineno"> 1332</span>&#160;        {</div>
+<div class="line"><a name="l01333"></a><span class="lineno"> 1333</span>&#160;<span class="preprocessor">            #ifdef SPARK</span></div>
+<div class="line"><a name="l01334"></a><span class="lineno"> 1334</span>&#160;              Spark.publish(SPARK_PUBLISH_TOPIC, <span class="stringliteral">&quot;Connection Failure&quot;</span>, SPARK_PUBLISH_TTL, PRIVATE);</div>
+<div class="line"><a name="l01335"></a><span class="lineno"> 1335</span>&#160;<span class="preprocessor">            #else</span></div>
+<div class="line"><a name="l01336"></a><span class="lineno"> 1336</span>&#160;              Serial.println(<span class="stringliteral">&quot;Failed.&quot;</span>);</div>
+<div class="line"><a name="l01337"></a><span class="lineno"> 1337</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01338"></a><span class="lineno"> 1338</span>&#160;        }</div>
+<div class="line"><a name="l01339"></a><span class="lineno"> 1339</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01340"></a><span class="lineno"> 1340</span>&#160;        <span class="keywordflow">return</span> connectSuccess;</div>
+<div class="line"><a name="l01341"></a><span class="lineno"> 1341</span>&#160;    };</div>
+<div class="line"><a name="l01342"></a><span class="lineno"> 1342</span>&#160;</div>
+<div class="line"><a name="l01343"></a><span class="lineno"> 1343</span>&#160;    <span class="keywordtype">bool</span> writeHTTPHeader(<span class="keyword">const</span> <span class="keywordtype">char</span> * APIKey)</div>
+<div class="line"><a name="l01344"></a><span class="lineno"> 1344</span>&#160;    {</div>
+<div class="line"><a name="l01345"></a><span class="lineno"> 1345</span>&#160;        <span class="keywordflow">if</span>(NULL != this-&gt;customHostName)</div>
+<div class="line"><a name="l01346"></a><span class="lineno"> 1346</span>&#160;        {</div>
+<div class="line"><a name="l01347"></a><span class="lineno"> 1347</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Host: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01348"></a><span class="lineno"> 1348</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(this-&gt;customHostName)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01349"></a><span class="lineno"> 1349</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01350"></a><span class="lineno"> 1350</span>&#160;        }</div>
+<div class="line"><a name="l01351"></a><span class="lineno"> 1351</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01352"></a><span class="lineno"> 1352</span>&#160;        {</div>
+<div class="line"><a name="l01353"></a><span class="lineno"> 1353</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Host: api.thingspeak.com\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01354"></a><span class="lineno"> 1354</span>&#160;        }</div>
+<div class="line"><a name="l01355"></a><span class="lineno"> 1355</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;Connection: close\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01356"></a><span class="lineno"> 1356</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;User-Agent: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01357"></a><span class="lineno"> 1357</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(TS_USER_AGENT)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01358"></a><span class="lineno"> 1358</span>&#160;        <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01359"></a><span class="lineno"> 1359</span>&#160;        <span class="keywordflow">if</span>(NULL != APIKey)</div>
+<div class="line"><a name="l01360"></a><span class="lineno"> 1360</span>&#160;        {</div>
+<div class="line"><a name="l01361"></a><span class="lineno"> 1361</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;X-THINGSPEAKAPIKEY: &quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01362"></a><span class="lineno"> 1362</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(APIKey)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01363"></a><span class="lineno"> 1363</span>&#160;            <span class="keywordflow">if</span> (!this-&gt;client-&gt;print(<span class="stringliteral">&quot;\n&quot;</span>)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l01364"></a><span class="lineno"> 1364</span>&#160;        }</div>
+<div class="line"><a name="l01365"></a><span class="lineno"> 1365</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l01366"></a><span class="lineno"> 1366</span>&#160;    };</div>
+<div class="line"><a name="l01367"></a><span class="lineno"> 1367</span>&#160;</div>
+<div class="line"><a name="l01368"></a><span class="lineno"> 1368</span>&#160;    <span class="keywordtype">int</span> getHTTPResponse(String &amp; response)</div>
+<div class="line"><a name="l01369"></a><span class="lineno"> 1369</span>&#160;    {</div>
+<div class="line"><a name="l01370"></a><span class="lineno"> 1370</span>&#160;        <span class="keywordtype">long</span> startWaitForResponseAt = millis();</div>
+<div class="line"><a name="l01371"></a><span class="lineno"> 1371</span>&#160;        <span class="keywordflow">while</span>(client-&gt;available() == 0 &amp;&amp; millis() - startWaitForResponseAt &lt; TIMEOUT_MS_SERVERRESPONSE)</div>
+<div class="line"><a name="l01372"></a><span class="lineno"> 1372</span>&#160;        {</div>
+<div class="line"><a name="l01373"></a><span class="lineno"> 1373</span>&#160;            delay(100);</div>
+<div class="line"><a name="l01374"></a><span class="lineno"> 1374</span>&#160;        }</div>
+<div class="line"><a name="l01375"></a><span class="lineno"> 1375</span>&#160;        <span class="keywordflow">if</span>(client-&gt;available() == 0)</div>
+<div class="line"><a name="l01376"></a><span class="lineno"> 1376</span>&#160;        {</div>
+<div class="line"><a name="l01377"></a><span class="lineno"> 1377</span>&#160;            <span class="keywordflow">return</span> ERR_TIMEOUT; <span class="comment">// Didn&#39;t get server response in time</span></div>
+<div class="line"><a name="l01378"></a><span class="lineno"> 1378</span>&#160;        }</div>
+<div class="line"><a name="l01379"></a><span class="lineno"> 1379</span>&#160;</div>
+<div class="line"><a name="l01380"></a><span class="lineno"> 1380</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;HTTP/1.1&quot;</span>)))</div>
 <div class="line"><a name="l01381"></a><span class="lineno"> 1381</span>&#160;        {</div>
-<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;            <span class="keywordflow">return</span> status;</div>
-<div class="line"><a name="l01383"></a><span class="lineno"> 1383</span>&#160;        }</div>
-<div class="line"><a name="l01384"></a><span class="lineno"> 1384</span>&#160;</div>
-<div class="line"><a name="l01385"></a><span class="lineno"> 1385</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;\n\r\n&quot;</span>)))</div>
-<div class="line"><a name="l01386"></a><span class="lineno"> 1386</span>&#160;        {</div>
-<div class="line"><a name="l01387"></a><span class="lineno"> 1387</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find end of header&quot;</span>);</div>
-<div class="line"><a name="l01389"></a><span class="lineno"> 1389</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01390"></a><span class="lineno"> 1390</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE;</div>
-<div class="line"><a name="l01391"></a><span class="lineno"> 1391</span>&#160;        }</div>
-<div class="line"><a name="l01392"></a><span class="lineno"> 1392</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01393"></a><span class="lineno"> 1393</span>&#160;            Serial.println(<span class="stringliteral">&quot;Found end of header&quot;</span>);</div>
-<div class="line"><a name="l01394"></a><span class="lineno"> 1394</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;<span class="preprocessor">        #ifndef PRINT_HTTP</span></div>
-<div class="line"><a name="l01396"></a><span class="lineno"> 1396</span>&#160;            client-&gt;parseInt();</div>
-<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;<span class="preprocessor">        #else</span></div>
-<div class="line"><a name="l01398"></a><span class="lineno"> 1398</span>&#160;            <span class="keywordtype">long</span> length = client-&gt;parseInt();</div>
-<div class="line"><a name="l01399"></a><span class="lineno"> 1399</span>&#160;            Serial.print(<span class="stringliteral">&quot;Got length of &quot;</span>);Serial.println(length);</div>
-<div class="line"><a name="l01400"></a><span class="lineno"> 1400</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01401"></a><span class="lineno"> 1401</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;\r\n&quot;</span>)))</div>
-<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;        {</div>
-<div class="line"><a name="l01403"></a><span class="lineno"> 1403</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find end of length&quot;</span>);</div>
-<div class="line"><a name="l01405"></a><span class="lineno"> 1405</span>&#160;<span class="preprocessor">            #endif</span></div>
-<div class="line"><a name="l01406"></a><span class="lineno"> 1406</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE;</div>
-<div class="line"><a name="l01407"></a><span class="lineno"> 1407</span>&#160;        }</div>
-<div class="line"><a name="l01408"></a><span class="lineno"> 1408</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01409"></a><span class="lineno"> 1409</span>&#160;            Serial.println(<span class="stringliteral">&quot;Found end of length&quot;</span>);</div>
-<div class="line"><a name="l01410"></a><span class="lineno"> 1410</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01411"></a><span class="lineno"> 1411</span>&#160;        <span class="comment">// This is a workaround to a bug in the Spark implementation of String</span></div>
-<div class="line"><a name="l01412"></a><span class="lineno"> 1412</span>&#160;        String tempString = client-&gt;readStringUntil(<span class="charliteral">&#39;\r&#39;</span>);</div>
-<div class="line"><a name="l01413"></a><span class="lineno"> 1413</span>&#160;        response = tempString;</div>
-<div class="line"><a name="l01414"></a><span class="lineno"> 1414</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
-<div class="line"><a name="l01415"></a><span class="lineno"> 1415</span>&#160;            Serial.print(<span class="stringliteral">&quot;Response: \&quot;&quot;</span>);Serial.print(response);Serial.println(<span class="stringliteral">&quot;\&quot;&quot;</span>);</div>
-<div class="line"><a name="l01416"></a><span class="lineno"> 1416</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;        <span class="keywordflow">return</span> status;</div>
-<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;    };</div>
-<div class="line"><a name="l01419"></a><span class="lineno"> 1419</span>&#160;</div>
-<div class="line"><a name="l01420"></a><span class="lineno"> 1420</span>&#160;    <span class="keywordtype">int</span> convertFloatToChar(<span class="keywordtype">float</span> value, <span class="keywordtype">char</span> *valueString)</div>
-<div class="line"><a name="l01421"></a><span class="lineno"> 1421</span>&#160;    {</div>
-<div class="line"><a name="l01422"></a><span class="lineno"> 1422</span>&#160;        <span class="comment">// Supported range is -999999000000 to 999999000000</span></div>
-<div class="line"><a name="l01423"></a><span class="lineno"> 1423</span>&#160;        <span class="keywordflow">if</span>(0 == isinf(value) &amp;&amp; (value &gt; 999999000000 || value &lt; -999999000000))</div>
-<div class="line"><a name="l01424"></a><span class="lineno"> 1424</span>&#160;        {</div>
-<div class="line"><a name="l01425"></a><span class="lineno"> 1425</span>&#160;            <span class="comment">// Out of range</span></div>
-<div class="line"><a name="l01426"></a><span class="lineno"> 1426</span>&#160;            <span class="keywordflow">return</span> ERR_OUT_OF_RANGE;</div>
-<div class="line"><a name="l01427"></a><span class="lineno"> 1427</span>&#160;        }</div>
-<div class="line"><a name="l01428"></a><span class="lineno"> 1428</span>&#160;        <span class="comment">// Given that the resolution of Spark is 1 / 2^12, or ~0.00024 volts, assume that 5 places right of decimal should be sufficient for most applications</span></div>
-<div class="line"><a name="l01429"></a><span class="lineno"> 1429</span>&#160;<span class="preprocessor">        #ifdef PARTICLE_PHOTON</span></div>
-<div class="line"><a name="l01430"></a><span class="lineno"> 1430</span>&#160;          <span class="comment">//Photon doesn&#39;t have a dtostrf, but does have dtoa</span></div>
-<div class="line"><a name="l01431"></a><span class="lineno"> 1431</span>&#160;          dtoa((<span class="keywordtype">double</span>)value,5, valueString);</div>
-<div class="line"><a name="l01432"></a><span class="lineno"> 1432</span>&#160;<span class="preprocessor">        #else</span></div>
-<div class="line"><a name="l01433"></a><span class="lineno"> 1433</span>&#160;          dtostrf(value,1,5, valueString);</div>
-<div class="line"><a name="l01434"></a><span class="lineno"> 1434</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01435"></a><span class="lineno"> 1435</span>&#160;        <span class="keywordflow">return</span> OK_SUCCESS;</div>
-<div class="line"><a name="l01436"></a><span class="lineno"> 1436</span>&#160;    };</div>
-<div class="line"><a name="l01437"></a><span class="lineno"> 1437</span>&#160;</div>
-<div class="line"><a name="l01438"></a><span class="lineno"> 1438</span>&#160;    <span class="keywordtype">float</span> convertStringToFloat(String value)</div>
-<div class="line"><a name="l01439"></a><span class="lineno"> 1439</span>&#160;    {</div>
-<div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;        <span class="comment">// There&#39;s a bug in the AVR function strtod that it doesn&#39;t decode -INF correctly (it maps it to INF)</span></div>
-<div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;        <span class="keywordtype">float</span> result = value.toFloat();</div>
-<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;        <span class="keywordflow">if</span>(1 == isinf(result) &amp;&amp; *value.c_str() == <span class="charliteral">&#39;-&#39;</span>)</div>
-<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;        {</div>
-<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;            result = (float)-INFINITY;</div>
-<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;        }</div>
-<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01383"></a><span class="lineno"> 1383</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find HTTP/1.1&quot;</span>);</div>
+<div class="line"><a name="l01384"></a><span class="lineno"> 1384</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01385"></a><span class="lineno"> 1385</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE; <span class="comment">// Couldn&#39;t parse response (didn&#39;t find HTTP/1.1)</span></div>
+<div class="line"><a name="l01386"></a><span class="lineno"> 1386</span>&#160;        }</div>
+<div class="line"><a name="l01387"></a><span class="lineno"> 1387</span>&#160;        <span class="keywordtype">int</span> status = client-&gt;parseInt();</div>
+<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01389"></a><span class="lineno"> 1389</span>&#160;            Serial.print(<span class="stringliteral">&quot;Got Status of &quot;</span>);Serial.println(status);</div>
+<div class="line"><a name="l01390"></a><span class="lineno"> 1390</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01391"></a><span class="lineno"> 1391</span>&#160;        <span class="keywordflow">if</span>(status != OK_SUCCESS)</div>
+<div class="line"><a name="l01392"></a><span class="lineno"> 1392</span>&#160;        {</div>
+<div class="line"><a name="l01393"></a><span class="lineno"> 1393</span>&#160;            <span class="keywordflow">return</span> status;</div>
+<div class="line"><a name="l01394"></a><span class="lineno"> 1394</span>&#160;        }</div>
+<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;</div>
+<div class="line"><a name="l01396"></a><span class="lineno"> 1396</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;\n\r\n&quot;</span>)))</div>
+<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;        {</div>
+<div class="line"><a name="l01398"></a><span class="lineno"> 1398</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01399"></a><span class="lineno"> 1399</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find end of header&quot;</span>);</div>
+<div class="line"><a name="l01400"></a><span class="lineno"> 1400</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01401"></a><span class="lineno"> 1401</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE;</div>
+<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;        }</div>
+<div class="line"><a name="l01403"></a><span class="lineno"> 1403</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;            Serial.println(<span class="stringliteral">&quot;Found end of header&quot;</span>);</div>
+<div class="line"><a name="l01405"></a><span class="lineno"> 1405</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01406"></a><span class="lineno"> 1406</span>&#160;<span class="preprocessor">        #ifndef PRINT_HTTP</span></div>
+<div class="line"><a name="l01407"></a><span class="lineno"> 1407</span>&#160;            client-&gt;parseInt();</div>
+<div class="line"><a name="l01408"></a><span class="lineno"> 1408</span>&#160;<span class="preprocessor">        #else</span></div>
+<div class="line"><a name="l01409"></a><span class="lineno"> 1409</span>&#160;            <span class="keywordtype">long</span> length = client-&gt;parseInt();</div>
+<div class="line"><a name="l01410"></a><span class="lineno"> 1410</span>&#160;            Serial.print(<span class="stringliteral">&quot;Got length of &quot;</span>);Serial.println(length);</div>
+<div class="line"><a name="l01411"></a><span class="lineno"> 1411</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01412"></a><span class="lineno"> 1412</span>&#160;        <span class="keywordflow">if</span>(!client-&gt;find(const_cast&lt;char *&gt;(<span class="stringliteral">&quot;\r\n&quot;</span>)))</div>
+<div class="line"><a name="l01413"></a><span class="lineno"> 1413</span>&#160;        {</div>
+<div class="line"><a name="l01414"></a><span class="lineno"> 1414</span>&#160;<span class="preprocessor">            #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01415"></a><span class="lineno"> 1415</span>&#160;                Serial.println(<span class="stringliteral">&quot;ERROR: Didn&#39;t find end of length&quot;</span>);</div>
+<div class="line"><a name="l01416"></a><span class="lineno"> 1416</span>&#160;<span class="preprocessor">            #endif</span></div>
+<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;            <span class="keywordflow">return</span> ERR_BAD_RESPONSE;</div>
+<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;        }</div>
+<div class="line"><a name="l01419"></a><span class="lineno"> 1419</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01420"></a><span class="lineno"> 1420</span>&#160;            Serial.println(<span class="stringliteral">&quot;Found end of length&quot;</span>);</div>
+<div class="line"><a name="l01421"></a><span class="lineno"> 1421</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01422"></a><span class="lineno"> 1422</span>&#160;        <span class="comment">// This is a workaround to a bug in the Spark implementation of String</span></div>
+<div class="line"><a name="l01423"></a><span class="lineno"> 1423</span>&#160;        String tempString = client-&gt;readStringUntil(<span class="charliteral">&#39;\r&#39;</span>);</div>
+<div class="line"><a name="l01424"></a><span class="lineno"> 1424</span>&#160;        response = tempString;</div>
+<div class="line"><a name="l01425"></a><span class="lineno"> 1425</span>&#160;<span class="preprocessor">        #ifdef PRINT_HTTP</span></div>
+<div class="line"><a name="l01426"></a><span class="lineno"> 1426</span>&#160;            Serial.print(<span class="stringliteral">&quot;Response: \&quot;&quot;</span>);Serial.print(response);Serial.println(<span class="stringliteral">&quot;\&quot;&quot;</span>);</div>
+<div class="line"><a name="l01427"></a><span class="lineno"> 1427</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01428"></a><span class="lineno"> 1428</span>&#160;        <span class="keywordflow">return</span> status;</div>
+<div class="line"><a name="l01429"></a><span class="lineno"> 1429</span>&#160;    };</div>
+<div class="line"><a name="l01430"></a><span class="lineno"> 1430</span>&#160;</div>
+<div class="line"><a name="l01431"></a><span class="lineno"> 1431</span>&#160;    <span class="keywordtype">int</span> convertFloatToChar(<span class="keywordtype">float</span> value, <span class="keywordtype">char</span> *valueString)</div>
+<div class="line"><a name="l01432"></a><span class="lineno"> 1432</span>&#160;    {</div>
+<div class="line"><a name="l01433"></a><span class="lineno"> 1433</span>&#160;        <span class="comment">// Supported range is -999999000000 to 999999000000</span></div>
+<div class="line"><a name="l01434"></a><span class="lineno"> 1434</span>&#160;        <span class="keywordflow">if</span>(0 == isinf(value) &amp;&amp; (value &gt; 999999000000 || value &lt; -999999000000))</div>
+<div class="line"><a name="l01435"></a><span class="lineno"> 1435</span>&#160;        {</div>
+<div class="line"><a name="l01436"></a><span class="lineno"> 1436</span>&#160;            <span class="comment">// Out of range</span></div>
+<div class="line"><a name="l01437"></a><span class="lineno"> 1437</span>&#160;            <span class="keywordflow">return</span> ERR_OUT_OF_RANGE;</div>
+<div class="line"><a name="l01438"></a><span class="lineno"> 1438</span>&#160;        }</div>
+<div class="line"><a name="l01439"></a><span class="lineno"> 1439</span>&#160;        <span class="comment">// Given that the resolution of Spark is 1 / 2^12, or ~0.00024 volts, assume that 5 places right of decimal should be sufficient for most applications</span></div>
+<div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;<span class="preprocessor">        #ifdef PARTICLE_PHOTON</span></div>
+<div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;          <span class="comment">//Photon doesn&#39;t have a dtostrf, but does have dtoa</span></div>
+<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;          dtoa((<span class="keywordtype">double</span>)value,5, valueString);</div>
+<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;<span class="preprocessor">        #else</span></div>
+<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;          dtostrf(value,1,5, valueString);</div>
+<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;        <span class="keywordflow">return</span> OK_SUCCESS;</div>
 <div class="line"><a name="l01447"></a><span class="lineno"> 1447</span>&#160;    };</div>
 <div class="line"><a name="l01448"></a><span class="lineno"> 1448</span>&#160;</div>
-<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;    <span class="keywordtype">void</span> resetWriteFields()</div>
+<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;    <span class="keywordtype">float</span> convertStringToFloat(String value)</div>
 <div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;    {</div>
-<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> iField = 0; iField &lt; 8; iField++)</div>
-<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;        {</div>
-<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;            this-&gt;nextWriteField[iField] = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;        }</div>
-<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;        this-&gt;nextWriteLatitude = NAN;</div>
-<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;        this-&gt;nextWriteLongitude = NAN;</div>
-<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160;        this-&gt;nextWriteElevation = NAN;</div>
+<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;        <span class="comment">// There&#39;s a bug in the AVR function strtod that it doesn&#39;t decode -INF correctly (it maps it to INF)</span></div>
+<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;        <span class="keywordtype">float</span> result = value.toFloat();</div>
+<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;        <span class="keywordflow">if</span>(1 == isinf(result) &amp;&amp; *value.c_str() == <span class="charliteral">&#39;-&#39;</span>)</div>
+<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;        {</div>
+<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;            result = (float)-INFINITY;</div>
+<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;        }</div>
+<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160;        <span class="keywordflow">return</span> result;</div>
 <div class="line"><a name="l01458"></a><span class="lineno"> 1458</span>&#160;    };</div>
-<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;};</div>
-<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;</div>
-<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;<span class="keyword">extern</span> <a class="code" href="class_thing_speak_class.html">ThingSpeakClass</a> ThingSpeak;</div>
-<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;</div>
-<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160;<span class="preprocessor">#endif //ThingSpeak_h</span></div>
+<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;</div>
+<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;    <span class="keywordtype">void</span> resetWriteFields()</div>
+<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;    {</div>
+<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> iField = 0; iField &lt; 8; iField++)</div>
+<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160;        {</div>
+<div class="line"><a name="l01464"></a><span class="lineno"> 1464</span>&#160;            this-&gt;nextWriteField[iField] = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l01465"></a><span class="lineno"> 1465</span>&#160;        }</div>
+<div class="line"><a name="l01466"></a><span class="lineno"> 1466</span>&#160;        this-&gt;nextWriteLatitude = NAN;</div>
+<div class="line"><a name="l01467"></a><span class="lineno"> 1467</span>&#160;        this-&gt;nextWriteLongitude = NAN;</div>
+<div class="line"><a name="l01468"></a><span class="lineno"> 1468</span>&#160;        this-&gt;nextWriteElevation = NAN;</div>
+<div class="line"><a name="l01469"></a><span class="lineno"> 1469</span>&#160;    };</div>
+<div class="line"><a name="l01470"></a><span class="lineno"> 1470</span>&#160;};</div>
+<div class="line"><a name="l01471"></a><span class="lineno"> 1471</span>&#160;</div>
+<div class="line"><a name="l01472"></a><span class="lineno"> 1472</span>&#160;<span class="keyword">extern</span> <a class="code" href="class_thing_speak_class.html">ThingSpeakClass</a> ThingSpeak;</div>
+<div class="line"><a name="l01473"></a><span class="lineno"> 1473</span>&#160;</div>
+<div class="line"><a name="l01474"></a><span class="lineno"> 1474</span>&#160;<span class="preprocessor">#endif //ThingSpeak_h</span></div>
 <div class="ttc" id="class_thing_speak_class_html_a2a5333f683802cb455a3713d604abb84"><div class="ttname"><a href="class_thing_speak_class.html#a2a5333f683802cb455a3713d604abb84">ThingSpeakClass::writeRaw</a></div><div class="ttdeci">int writeRaw(unsigned long channelNumber, const char *postMessage, const char *writeAPIKey)</div><div class="ttdoc">Write a raw POST to a ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:830</div></div>
 <div class="ttc" id="class_thing_speak_class_html_aa1534ea566b7f9fc951a41f8cf41f53b"><div class="ttname"><a href="class_thing_speak_class.html#aa1534ea566b7f9fc951a41f8cf41f53b">ThingSpeakClass::readStringField</a></div><div class="ttdeci">String readStringField(unsigned long channelNumber, unsigned int field, const char *readAPIKey)</div><div class="ttdoc">Read the latest string from a private ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:925</div></div>
 <div class="ttc" id="class_thing_speak_class_html_a7ed5914c2f5c7d84672cdaae3547da96"><div class="ttname"><a href="class_thing_speak_class.html#a7ed5914c2f5c7d84672cdaae3547da96">ThingSpeakClass::readStringField</a></div><div class="ttdeci">String readStringField(unsigned long channelNumber, unsigned int field)</div><div class="ttdoc">Read the latest string from a public ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:958</div></div>
@@ -812,7 +833,7 @@
 <div class="ttc" id="class_thing_speak_class_html_a72eea45043ab45051c02593983d29546"><div class="ttname"><a href="class_thing_speak_class.html#a72eea45043ab45051c02593983d29546">ThingSpeakClass::setField</a></div><div class="ttdeci">int setField(unsigned int field, int value)</div><div class="ttdoc">Set the value of a single field that will be part of a multi-field update. To write multiple fields a...</div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:409</div></div>
 <div class="ttc" id="class_thing_speak_class_html_ad790afb71eb19b723c6fc2f17f8f4400"><div class="ttname"><a href="class_thing_speak_class.html#ad790afb71eb19b723c6fc2f17f8f4400">ThingSpeakClass::setLatitude</a></div><div class="ttdeci">int setLatitude(float latitude)</div><div class="ttdoc">Set the latitude of a multi-field update. To record latitude, longitude and elevation of a write...</div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:618</div></div>
 <div class="ttc" id="class_thing_speak_class_html_a7375bc37b4cbf132751439f5fcafd1ba"><div class="ttname"><a href="class_thing_speak_class.html#a7375bc37b4cbf132751439f5fcafd1ba">ThingSpeakClass::begin</a></div><div class="ttdeci">bool begin(Client &amp;client, const char *customHostName, unsigned int port)</div><div class="ttdoc">Initializes the ThingSpeak library and network settings using a custom installation of ThingSpeak...</div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:153</div></div>
-<div class="ttc" id="class_thing_speak_class_html_a549941b4b0000a2ba89de94f038ed577"><div class="ttname"><a href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577">ThingSpeakClass::getLastReadStatus</a></div><div class="ttdeci">int getLastReadStatus()</div><div class="ttdoc">Get the status of the previous read. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:1216</div></div>
+<div class="ttc" id="class_thing_speak_class_html_a549941b4b0000a2ba89de94f038ed577"><div class="ttname"><a href="class_thing_speak_class.html#a549941b4b0000a2ba89de94f038ed577">ThingSpeakClass::getLastReadStatus</a></div><div class="ttdeci">int getLastReadStatus()</div><div class="ttdoc">Get the status of the previous read. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:1217</div></div>
 <div class="ttc" id="class_thing_speak_class_html_a24fa89e20ef8b3314ad8270c1f81dd2d"><div class="ttname"><a href="class_thing_speak_class.html#a24fa89e20ef8b3314ad8270c1f81dd2d">ThingSpeakClass::writeField</a></div><div class="ttdeci">int writeField(unsigned long channelNumber, unsigned int field, int value, const char *writeAPIKey)</div><div class="ttdoc">Write an integer value to a single field in a ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:245</div></div>
 <div class="ttc" id="class_thing_speak_class_html"><div class="ttname"><a href="class_thing_speak_class.html">ThingSpeakClass</a></div><div class="ttdoc">This library enables an Arduino or other compatible hardware to write or read data to or from ThingSp...</div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:123</div></div>
 <div class="ttc" id="class_thing_speak_class_html_aff3c2e94e85da016fb8c82432e015d1b"><div class="ttname"><a href="class_thing_speak_class.html#aff3c2e94e85da016fb8c82432e015d1b">ThingSpeakClass::readLongField</a></div><div class="ttdeci">long readLongField(unsigned long channelNumber, unsigned int field, const char *readAPIKey)</div><div class="ttdoc">Read the latest long from a private ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:1022</div></div>
@@ -834,11 +855,17 @@
 <div class="ttc" id="class_thing_speak_class_html_a1e9cc3c21e0a7360310aba628ef586c9"><div class="ttname"><a href="class_thing_speak_class.html#a1e9cc3c21e0a7360310aba628ef586c9">ThingSpeakClass::setElevation</a></div><div class="ttdeci">int setElevation(float elevation)</div><div class="ttdoc">Set the elevation of a multi-field update. To record latitude, longitude and elevation of a write...</div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:704</div></div>
 <div class="ttc" id="class_thing_speak_class_html_a3cc1f2fa986087cbc233a3f30d1dd957"><div class="ttname"><a href="class_thing_speak_class.html#a3cc1f2fa986087cbc233a3f30d1dd957">ThingSpeakClass::writeField</a></div><div class="ttdeci">int writeField(unsigned long channelNumber, unsigned int field, long value, const char *writeAPIKey)</div><div class="ttdoc">Write a long value to a single field in a ThingSpeak channel. </div><div class="ttdef"><b>Definition:</b> ThingSpeak.h:273</div></div>
 </div><!-- fragment --></div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 13 2015 15:42:57 for ThingSpeak Communication Library for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
+     <table border=0 width='100%'><tr>
+        <td align="left" width='50%'>
+          See the accompaning licence file for licensing information
+        </td>
+        <td align="right" width='50%'>
+          Copyright &copy; 2015 <a target=_top href=http://www.mathworks.com>The MathWorks, Inc.</a><br>
+        </td>
+      </tr></table>
 </small></address>
 </body>
 </html>
