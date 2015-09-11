@@ -3,7 +3,7 @@
   
   Reads the latest CheerLights color on ThingSpeak, and sets a common anode RGB LED on digital pins 5, 6, and 9.
   On Spark core, the built in RGB LED is used
-  Visit https://www.cheerlights.com for more info.
+  Visit http://www.cheerlights.com for more info.
 
   ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for prototyping
   systems that collect, analyze, and react to their environments.
