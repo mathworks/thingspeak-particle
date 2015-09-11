@@ -15,7 +15,11 @@
   See the accompaning licence file for licensing information.
 */
 
-#include "ThingSpeak.h"
+#ifdef SPARK
+	#include "ThingSpeak/ThingSpeak.h"
+#else
+	#include "ThingSpeak.h"
+#endif
 
 // ***********************************************************************************************************
 // This example selects the correct library to use based on the board selected under the Tools menu in the IDE.
