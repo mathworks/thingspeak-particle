@@ -1476,7 +1476,7 @@ private:
           //Photon doesn't have a dtostrf, but does have dtoa
           dtoa((double)value,5, valueString);
         #else
-		  dtostrf(value,1,5, valueString);
+		sprintf(valueString,"%1.5f",value);
         #endif
 		return OK_SUCCESS;
 	};
