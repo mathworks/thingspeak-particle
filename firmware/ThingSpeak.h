@@ -721,8 +721,96 @@ class ThingSpeakClass
 		this->nextWriteElevation = elevation;
 		return OK_SUCCESS;
 	};
+    
+    
+    /**
+     * @brief Set the status of a multi-field update.
+     * To record status of a write, call setField() for each of the fields you want to write, setLatitude() / setLongitude() / setElevation() / setStatus(), and then call writeFields()
+     * @param status Status update message
+     * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+     * @see setField(), setLatitude(), setLongitude(), writeFields()
+     * @code
+     void loop() {
+     int sensor1Value = analogRead(A0);
+     float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+     String sensor3Meaning;
+     int sensor3Value = analogRead(A2);
+     if (sensor3Value < 400) {
+     sensor3Meaning = String("Too Cold!");
+     } else if (sensor3Value > 600) {
+     sensor3Meaning = String("Too Hot!");
+     } else {
+     sensor3Meaning = String("Just Right");
+     }
+     long timeRead = millis();
+     
+     ThingSpeak.setField(1, sensor1Value);
+     ThingSpeak.setField(2, sensor2Voltage);
+     ThingSpeak.setField(3, sensor3Meaning);
+     ThingSpeak.setField(4, timeRead);
+     setLatitude(42.2833);
+     setLongitude(-71.3500);
+     setElevation(100);
+     setStatus(sensor3Meaning);
+     ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+     delay(20000);
+     }
+     * @endcode
+     */
+    int setStatus(String status)
+    {
+        #ifdef PRINT_DEBUG_MESSAGES
+            Serial.print("ts::setStatus(status: "); Serial.print(status); Serial.println("\")");
+        #endif
+        this->nextWriteStatus = status;
+        return OK_SUCCESS;
+    };
 
 
+    /**
+     * @brief Set the created_at of a multi-field update.
+     * To record created_at of a write, call setCreated_at() and then call writeFields()
+     * @param created_at Date when this feed entry was created, in ISO 8601 format, for example: 2014-12-31 23:59:59. Time zones can be specified via the timezone parameter
+     * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+     * @see setField(), setLatitude(), setLongitude(), writeFields()
+     * @code
+     void loop() {
+     int sensor1Value = analogRead(A0);
+     float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+     String sensor3Meaning;
+     int sensor3Value = analogRead(A2);
+     if (sensor3Value < 400) {
+     sensor3Meaning = String("Too Cold!");
+     } else if (sensor3Value > 600) {
+     sensor3Meaning = String("Too Hot!");
+     } else {
+     sensor3Meaning = String("Just Right");
+     }
+     long timeRead = millis();
+     
+     ThingSpeak.setField(1, sensor1Value);
+     ThingSpeak.setField(2, sensor2Voltage);
+     ThingSpeak.setField(3, sensor3Meaning);
+     ThingSpeak.setField(4, timeRead);
+     setLatitude(42.2833);
+     setLongitude(-71.3500);
+     setElevation(100);
+     setCreatedAt("2014-12-31T23:59:59");
+     ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+     delay(20000);
+     }
+     * @endcode
+     */
+    int setCreated_at(String created_at)
+    {
+        #ifdef PRINT_DEBUG_MESSAGES
+            Serial.print("ts::setCreated_at(created_at: "); Serial.print(created_at); Serial.println("\")");
+        #endif
+        this->nextWriteCreated_at = created_at;
+        return OK_SUCCESS;
+    };
+
+    
 	/**
 	 * @brief Write a multi-field update.
 	 * Call setField() for each of the fields you want to write, setLatitude() / setLongitude() / setElevation(), and then call writeFields()
@@ -808,6 +896,28 @@ class ThingSpeakClass
 			fFirstItem = false;
 			this->nextWriteElevation = NAN;
 		}
+        
+        if((this->nextWriteStatus).length() > 0)
+        {
+            if(!fFirstItem)
+            {
+                postMessage = postMessage + String("&");
+            }
+            postMessage = postMessage + String("status=") + String(this->nextWriteStatus);
+            fFirstItem = false;
+            this->nextWriteStatus = "";
+        }
+
+        if((this->nextWriteCreated_at).length() > 0)
+        {
+            if(!fFirstItem)
+            {
+                postMessage = postMessage + String("&");
+            }
+            postMessage = postMessage + String("created_at=") + String(this->nextWriteCreated_at);
+            fFirstItem = false;
+            this->nextWriteCreated_at = "";
+        }
 
 		if(fFirstItem)
 		{
@@ -1288,6 +1398,8 @@ private:
 	float nextWriteLatitude;
 	float nextWriteLongitude;
 	float nextWriteElevation;
+	String nextWriteStatus;
+	String nextWriteCreated_at;
 	int lastReadStatus;
 
 	bool connectThingSpeak()
@@ -1501,6 +1613,8 @@ private:
 		this->nextWriteLatitude = NAN;
 		this->nextWriteLongitude = NAN;
 		this->nextWriteElevation = NAN;
+		this->nextWriteStatus = "";
+		this->nextWriteCreated_at = "";
 	};
 };
 
