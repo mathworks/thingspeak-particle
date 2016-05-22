@@ -1398,8 +1398,8 @@ private:
 	float nextWriteLatitude;
 	float nextWriteLongitude;
 	float nextWriteElevation;
-    String nextWriteStatus;
-    String nextWriteCreated_at;
+	String nextWriteStatus;
+	String nextWriteCreated_at;
 	int lastReadStatus;
 
 	bool connectThingSpeak()
@@ -1613,8 +1613,8 @@ private:
 		this->nextWriteLatitude = NAN;
 		this->nextWriteLongitude = NAN;
 		this->nextWriteElevation = NAN;
-        this->nextWriteStatus = "";
-        this->nextWriteCreated_at = "";
+		this->nextWriteStatus = "";
+		this->nextWriteCreated_at = "";
 	};
 };
 
