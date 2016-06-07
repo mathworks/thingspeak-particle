@@ -35,7 +35,7 @@
  * * <a href="http://www.arduino.cc">Arduino</a> or compatible using a wired or Wi-Fi ethernet shield (we have tested with <a href="http://www.arduino.cc/en/Main/ArduinoBoardUno">Uno</a> and <a href="http://www.arduino.cc/en/Main/ArduinoBoardMega2560">Mega</a>), should work with Arduino WiFi Shield 101
  * * <a href="http://www.arduino.cc/en/Main/ArduinoBoardYun">Arduino Yun</a> running OpenWRT-Yun Release 1.5.3 (November 13th, 2014) or later.  There are known issues with earlier versions.  Visit [this page](http://www.arduino.cc/en/Main/Software) to get the latest version.
  * * ESP8266 (tested with <a href="https://www.sparkfun.com/products/13711">SparkFun ESP8266 Thing - Dev Board</a> and <a href="http://www.seeedstudio.com/depot/NodeMCU-v2-Lua-based-ESP8266-development-kit-p-2415.html">NodeMCU 1.0 module</a>)
- * * Particle (Formally Spark) Core, <a href="https://www.particle.io/prototype#photon">Photon</a>, and <a href="https://www.particle.io/prototype#electron">Electron</a>
+ * * Particle (Formally Spark) Core, <a href="https://www.particle.io/prototype#photon">Photon</a>, <a href="https://www.particle.io/prototype#electron">Electron</a> and <a href="https://www.particle.io/prototype#p0-and-p1">P1</a>
  * 
  * <h3>Examples</h3>
  * The library includes several examples to help you get started.  These are accessible in the Examples/ThingSpeak menu off the File menu in the Arduino IDE.
@@ -55,15 +55,21 @@
 
 #ifdef SPARK
     // Create platform defines for Particle devices
-    #if PLATFORM_ID == 6
-        #define PARTICLE_PHOTON
+    #if PLATFORM_ID == 0
+		#define PARTICLE_CORE
+	#elif PLATFORM_ID == 6
+		#define PARTICLE_PHOTON
         #define PARTICLE_PHOTONELECTRON
-    #elif PLATFORM_ID == 10
-        #define PARTICLE_ELECTRON
+	#elif PLATFORM_ID == 8
+		#define PARTICLE_P1
+		#define PARTICLE_PHOTONELECTRON
+	#elif PLATFORM_ID == 10
+		#define PARTICLE_ELECTRON
         #define PARTICLE_PHOTONELECTRON
-    #elif PLATFORM_ID == 0
-        #define PARTICLE_CORE
-    #endif
+	#else
+		#error Only Spark Core/Photon/Electron/P1 are supported.
+	#endif
+	
 
     #include "math.h"
     #include "application.h"
@@ -83,7 +89,7 @@
 	  #include "Arduino.h"
 	  #include <Client.h>
 	#else
-      #error Only Arduino Yun, Uno/Mega/Due with either Wired or wi-fi Ethernet shield, ESP8266, and Spark Core/Photon/Electron are supported.
+      #error Only Arduino Yun, Uno/Mega/Due with either Wired or wi-fi Ethernet shield, ESP8266, and Spark Core/Photon/Electron/P1 are supported.
 	#endif
 #endif
 
@@ -106,7 +112,9 @@
         #define TS_USER_AGENT "tslib-arduino/1.0 (particle photon)"
     #elif defined(PARTICLE_ELECTRON)
         #define TS_USER_AGENT "tslib-arduino/1.0 (particle electron)"
-    #endif
+    #elif defined(PARTICLE_P1)
+		#define TS_USER_AGENT "tslib-arduino/1.0 (particle p1)"
+	#endif
     #define SPARK_PUBLISH_TTL 60 // Spark "time to live" for published messages
     #define SPARK_PUBLISH_TOPIC "thingspeak-debug"
 #endif
