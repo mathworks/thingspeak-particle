@@ -1480,9 +1480,8 @@ private:
 			return ERR_OUT_OF_RANGE;
 		}
 		// Given that the resolution of Spark is 1 / 2^12, or ~0.00024 volts, assume that 5 places right of decimal should be sufficient for most applications
-        #ifdef PARTICLE_PHOTONELECTRON
-          //Photon doesn't have a dtostrf, but does have dtoa
-          dtoa((double)value,5, valueString);
+        #ifdef SPARK
+          sprintf(valueString, "%.5f", value);
         #else
 		  dtostrf(value,1,5, valueString);
         #endif
