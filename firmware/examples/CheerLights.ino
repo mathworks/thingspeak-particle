@@ -5,71 +5,23 @@
   On Spark core, the built in RGB LED is used
   Visit http://www.cheerlights.com for more info.
 
-  ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for prototyping
-  systems that collect, analyze, and react to their environments.
+  ThingSpeak ( https://www.thingspeak.com ) is an analytic IoT platform service that allows you to aggregate, visualize and analyze live data streams in the cloud.
   
   Copyright 2016, The MathWorks, Inc.
 
-  Documentation for the ThingSpeak Communication Library for Arduino is in the extras/documentation folder where the library was installed.
+  Documentation for the ThingSpeak Communication Library for Particle is in the doc folder where the library was installed.
   See the accompaning licence file for licensing information.
 */
 
-#ifdef SPARK
-	#include "ThingSpeak/ThingSpeak.h"
-#else
-	#include "ThingSpeak.h"
-#endif
+#include "ThingSpeak/ThingSpeak.h"
 
-// ***********************************************************************************************************
-// This example selects the correct library to use based on the board selected under the Tools menu in the IDE.
-// Yun, Wired Ethernet shield, wi-fi shield, esp8266, and Spark are all supported.
-// With Uno and Mega, the default is that you're using a wired ethernet shield (http://www.arduino.cc/en/Main/ArduinoEthernetShield)
-// If you're using a wi-fi shield (http://www.arduino.cc/en/Main/ArduinoWiFiShield), uncomment the line below
-// ***********************************************************************************************************
-//#define USE_WIFI_SHIELD
-
-// Make sure that you put a 330 ohm resistor between the arduino
+// Make sure that you put a 330 ohm resistor between the Particle
 // pins and each of the color pins on the LED.
 int pinRed = 9;
 int pinGreen = 6;
 int pinBlue = 5;
 
-#ifdef ARDUINO_ARCH_AVR
-  #ifdef ARDUINO_AVR_YUN
-    #include "YunClient.h"
-    YunClient client;
-  #else
-
-    #ifdef USE_WIFI_SHIELD
-      #include <SPI.h>
-      // ESP8266 USERS -- YOU MUST COMMENT OUT THE LINE BELOW.  There's a bug in the Arduino IDE that causes it to not respect #ifdef when it comes to #includes
-      // If you get "multiple definition of `WiFi'" -- comment out the line below.
-      #include <WiFi.h>
-      char ssid[] = "<YOURNETWORK>";          //  your network SSID (name) 
-      char pass[] = "<YOURPASSWORD>";   // your network password
-      int status = WL_IDLE_STATUS;
-      WiFiClient  client;
-    #else
-      // Use wired ethernet shield
-      #include <SPI.h>
-      #include <Ethernet.h>
-      byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-      EthernetClient client;
-    #endif
-  #endif
-#endif
-
-#ifdef ARDUINO_ARCH_ESP8266
-  #include <ESP8266WiFi.h>
-  char ssid[] = "<YOURNETWORK>";          //  your network SSID (name) 
-  char pass[] = "<YOURPASSWORD>";   // your network password
-  int status = WL_IDLE_STATUS;
-  WiFiClient  client;
-#endif
-
-#ifdef SPARK
-  TCPClient client;
-#endif
+TCPClient client;
 
 
 /*
@@ -80,25 +32,7 @@ int pinBlue = 5;
 unsigned long cheerLightsChannelNumber = 1417;
 
 void setup() {
-  #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_ESP8266)
-    #ifdef ARDUINO_AVR_YUN
-      Bridge.begin();
-    #else
-      #if defined(USE_WIFI_SHIELD) || defined(ARDUINO_ARCH_ESP8266)
-         WiFi.begin(ssid, pass);
-      #else
-        Ethernet.begin(mac);
-      #endif
-    #endif
-  #endif
-  
   ThingSpeak.begin(client);
-
-  #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_ESP8266)
-      pinMode(pinRed,OUTPUT);
-      pinMode(pinGreen,OUTPUT);
-      pinMode(pinBlue,OUTPUT);
-  #endif
 }
 
 void loop() {
@@ -137,15 +71,10 @@ void setColor(String color)
     {
       // When it matches, look up the RGB values for that color in the table,
       // and write the red, green, and blue values.
-      #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_ESP8266)
-        analogWrite(pinRed,colorRGB[iColor][0]);
-        analogWrite(pinGreen,colorRGB[iColor][1]);
-        analogWrite(pinBlue,colorRGB[iColor][2]);
-      #endif
-      #ifdef SPARK
-        RGB.control(true);
-        RGB.color(colorRGB[iColor][0], colorRGB[iColor][1], colorRGB[iColor][2]);
-      #endif
+
+	  RGB.control(true);
+	  RGB.color(colorRGB[iColor][0], colorRGB[iColor][1], colorRGB[iColor][2]);
+
       return;
     }
   }

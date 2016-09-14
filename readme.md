@@ -1,8 +1,8 @@
-#ThingSpeak Communication Library for Arduino, ESP8266, and Particle
+#ThingSpeak Communication Library for Particle
 
-This library enables an Arduino or other compatible hardware to write or read data to or from ThingSpeak, an open data platform for the Internet of Things with MATLAB analytics and visualization.
+This library enables Particle hardware to write or read data to or from ThingSpeak, an open data platform for the Internet of Things with MATLAB analytics and visualization.
 
-Complete technical documentation is in the extras/documentation folder inside the library.
+Complete technical documentation is in the doc folder inside the library.
 
 ThingSpeak offers free data storage and analysis of time-stamped numeric or alphanumeric data. Users can access ThingSpeak by visiting http://thingspeak.com and creating a ThingSpeak user account.
 
@@ -12,29 +12,15 @@ Channels may be public, where anyone can see the data, or private, where only th
 
 You can visualize and do online analytics of your data on ThingSpeak using the built in version of MATLAB, or use the desktop version of MATLAB to get deeper historical insight. Visit https://www.mathworks.com/hardware-support/thingspeak.html to learn more.
 
-## Installation
-#### Arduino IDE
-In the Arduino IDE, choose Sketch/Include Library/Manage Libraries.  Click the ThingSpeak Library from the list, and click the Install button.
-
---- or ---
-
-1. Download the ZIP file (below) to your machine.
-2. In the Arduino IDE, choose Sketch/Include Library/Add Zip Library
-3. Navigate to the ZIP file, and click Open
-
 #### Particle Web IDE
 In the Particle Web IDE, click the libraries tab, find ThingSpeak, and choose "Include in App"
 
 ## Compatible Hardware:
-
-* Arduino or compatible using a wired or Wi-Fi ethernet shield (we have tested with Uno and Mega), should work with Arduino WiFi Shield 101
-* Arduino Yun running OpenWRT-Yun Release 1.5.3 (November 13th, 2014) or later. There are known issues with earlier versions. Visit this page to get the latest version.
-* ESP8266. Tested with [SparkFun ESP8266 Thing - Dev Board](https://www.sparkfun.com/products/13711) and [NodeMCU 1.0 module](http://www.seeedstudio.com/depot/NodeMCU-v2-Lua-based-ESP8266-development-kit-p-2415.html)
 * Particle (Formally Spark) Core, [Photon](https://www.particle.io/prototype#photon), [Electron](https://www.particle.io/prototype#electron) and [P1] (https://www.particle.io/prototype#p0-and-p1).
 
 ## Examples:
 
-The library includes several examples to help you get started. These are accessible in the Examples/ThingSpeak menu off the File menu in the Arduino IDE.
+The library includes several examples to help you get started. These are accessible in ThingSpeak library section of the Particle Web IDE.
 
 * **CheerLights:** Reads the latest CheerLights color on ThingSpeak, and sets an RGB LED.
 * **ReadLastTemperature:** Reads the latest temperature from the public MathWorks weather station in Natick, MA on ThingSpeak.

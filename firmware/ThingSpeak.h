@@ -1,11 +1,10 @@
 /*
-  ThingSpeak(TM) Communication Library For Arduino, ESP8266, and Particle
+  ThingSpeak(TM) Communication Library For Particle
 
-  Enables an Arduino or other compatible hardware to write or read data to or from ThingSpeak,
+  Enables Particle hardware to write or read data to or from ThingSpeak,
   an open data platform for the Internet of Things with MATLAB analytics and visualization. 
 
-  ThingSpeak ( https://www.thingspeak.com ) is a free IoT service for building
-  systems that collect, analyze, and react to their environments.
+  ThingSpeak ( https://www.thingspeak.com ) is an analytic IoT platform service that allows you to aggregate, visualize and analyze live data streams in the cloud.
   
   Copyright 2016, The MathWorks, Inc.
  
@@ -32,13 +31,10 @@
  * deeper historical insight.  Visit https://www.mathworks.com/hardware-support/thingspeak.html to learn more.
  * 
  * <h3>Compatible Hardware</h3>
- * * <a href="http://www.arduino.cc">Arduino</a> or compatible using a wired or Wi-Fi ethernet shield (we have tested with <a href="http://www.arduino.cc/en/Main/ArduinoBoardUno">Uno</a> and <a href="http://www.arduino.cc/en/Main/ArduinoBoardMega2560">Mega</a>), should work with Arduino WiFi Shield 101
- * * <a href="http://www.arduino.cc/en/Main/ArduinoBoardYun">Arduino Yun</a> running OpenWRT-Yun Release 1.5.3 (November 13th, 2014) or later.  There are known issues with earlier versions.  Visit [this page](http://www.arduino.cc/en/Main/Software) to get the latest version.
- * * ESP8266 (tested with <a href="https://www.sparkfun.com/products/13711">SparkFun ESP8266 Thing - Dev Board</a> and <a href="http://www.seeedstudio.com/depot/NodeMCU-v2-Lua-based-ESP8266-development-kit-p-2415.html">NodeMCU 1.0 module</a>)
  * * Particle (Formally Spark) Core, <a href="https://www.particle.io/prototype#photon">Photon</a>, <a href="https://www.particle.io/prototype#electron">Electron</a> and <a href="https://www.particle.io/prototype#p0-and-p1">P1</a>
  * 
  * <h3>Examples</h3>
- * The library includes several examples to help you get started.  These are accessible in the Examples/ThingSpeak menu off the File menu in the Arduino IDE.
+ * The library includes several examples to help you get started.  These are accessible in ThingSpeak library section of the Particle Web IDE.
  * * <b>CheerLights:</b> Reads the latest <a href="http://www.cheerlights.com">CheerLights</a> color on ThingSpeak, and sets an RGB LED.
  * * <b>ReadLastTemperature:</b> Reads the latest temperature from the public <a href="https://thingspeak.com/channels/12397">MathWorks weather station</a> in Natick, MA on ThingSpeak.
  * * <b>ReadPrivateChannel:</b> Reads the latest voltage value from a private channel on ThingSpeak.
@@ -53,71 +49,56 @@
 //#define PRINT_DEBUG_MESSAGES
 //#define PRINT_HTTP
 
-#ifdef SPARK
-    // Create platform defines for Particle devices
-    #if PLATFORM_ID == 0
-		#define PARTICLE_CORE
-	#elif PLATFORM_ID == 6
-		#define PARTICLE_PHOTON
-        #define PARTICLE_PHOTONELECTRON
-	#elif PLATFORM_ID == 8
-		#define PARTICLE_P1
-		#define PARTICLE_PHOTONELECTRON
-	#elif PLATFORM_ID == 10
-		#define PARTICLE_ELECTRON
-        #define PARTICLE_PHOTONELECTRON
-	#else
-		#error Only Spark Core/Photon/Electron/P1 are supported.
-	#endif
-	
 
-    #include "math.h"
-    #include "application.h"
-    #ifdef PARTICLE_PHOTONELECTRON
-        extern char* dtoa(double val, unsigned char prec, char *sout);
-        // On spark photon, There is no itoa, so map to ltoa.
-        #include "string_convert.h"
-        #define itoa ltoa
-    #else
-        // On spark core, a long and an int are equivalent, and so there's no "ltoa" function defined.  Map it to itoa.
-        extern char * itoa(int a, char* buffer, unsigned char radix);
-        #define ltoa itoa
-        extern char *dtostrf (double val, signed char width, unsigned char prec, char *sout);
-    #endif
+// Create platform defines for Particle devices
+#if PLATFORM_ID == 0
+	#define PARTICLE_CORE
+#elif PLATFORM_ID == 6
+	#define PARTICLE_PHOTON
+	#define PARTICLE_PHOTONELECTRON
+#elif PLATFORM_ID == 8
+	#define PARTICLE_P1
+	#define PARTICLE_PHOTONELECTRON
+#elif PLATFORM_ID == 10
+	#define PARTICLE_ELECTRON
+	#define PARTICLE_PHOTONELECTRON
 #else
-	#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_ESP8266)
-	  #include "Arduino.h"
-	  #include <Client.h>
-	#else
-      #error Only Arduino Yun, Uno/Mega/Due with either Wired or wi-fi Ethernet shield, ESP8266, and Spark Core/Photon/Electron/P1 are supported.
-	#endif
+	#error Only Spark Core/Photon/Electron/P1 are supported.
 #endif
+
+
+#include "math.h"
+#include "application.h"
+#ifdef PARTICLE_PHOTONELECTRON
+	extern char* dtoa(double val, unsigned char prec, char *sout);
+	// On spark photon, There is no itoa, so map to ltoa.
+	#include "string_convert.h"
+	#define itoa ltoa
+#else
+	// On spark core, a long and an int are equivalent, and so there's no "ltoa" function defined.  Map it to itoa.
+	extern char * itoa(int a, char* buffer, unsigned char radix);
+	#define ltoa itoa
+	extern char *dtostrf (double val, signed char width, unsigned char prec, char *sout);
+#endif
+
 
 #define THINGSPEAK_URL "api.thingspeak.com"
 #define THINGSPEAK_IPADDRESS IPAddress(184,106,153,149)
 #define THINGSPEAK_PORT_NUMBER 80
 
-#ifdef ARDUINO_ARCH_AVR
-    #ifdef ARDUINO_AVR_YUN
-        #define TS_USER_AGENT "tslib-arduino/1.0 (arduino yun)"
-    #else
-        #define TS_USER_AGENT "tslib-arduino/1.0 (arduino uno or mega)"
-    #endif
-#elif defined(ARDUINO_ARCH_ESP8266)
-    #define TS_USER_AGENT "tslib-arduino/1.0 (ESP8266)"
-#elif defined(SPARK)
-    #ifdef PARTICLE_CORE
-        #define TS_USER_AGENT "tslib-arduino/1.0 (particle core)"
-    #elif defined(PARTICLE_PHOTON)
-        #define TS_USER_AGENT "tslib-arduino/1.0 (particle photon)"
-    #elif defined(PARTICLE_ELECTRON)
-        #define TS_USER_AGENT "tslib-arduino/1.0 (particle electron)"
-    #elif defined(PARTICLE_P1)
-		#define TS_USER_AGENT "tslib-arduino/1.0 (particle p1)"
-	#endif
-    #define SPARK_PUBLISH_TTL 60 // Spark "time to live" for published messages
-    #define SPARK_PUBLISH_TOPIC "thingspeak-debug"
+
+#ifdef PARTICLE_CORE
+	#define TS_USER_AGENT "tslib-arduino/1.0 (particle core)"
+#elif defined(PARTICLE_PHOTON)
+	#define TS_USER_AGENT "tslib-arduino/1.0 (particle photon)"
+#elif defined(PARTICLE_ELECTRON)
+	#define TS_USER_AGENT "tslib-arduino/1.0 (particle electron)"
+#elif defined(PARTICLE_P1)
+	#define TS_USER_AGENT "tslib-arduino/1.0 (particle p1)"
 #endif
+#define SPARK_PUBLISH_TTL 60 // Spark "time to live" for published messages
+#define SPARK_PUBLISH_TOPIC "thingspeak-debug"
+
 
 #define FIELDNUM_MIN 1
 #define FIELDNUM_MAX 8
@@ -138,7 +119,7 @@
 #define ERR_NOT_INSERTED        -401    // Point was not inserted (most probable cause is the rate limit of once every 15 seconds)
 
 /**
- * @brief Enables an Arduino, ESP8266, Particle or other compatible hardware to write or read data to or from ThingSpeak, an open data platform for the Internet of Things with MATLAB analytics and visualization. 
+ * @brief Particle hardware to write or read data to or from ThingSpeak, an open data platform for the Internet of Things with MATLAB analytics and visualization. 
  */
 class ThingSpeakClass
 {
@@ -151,21 +132,17 @@ class ThingSpeakClass
 
 	/**
 	 * @brief Initializes the ThingSpeak library and network settings using a custom installation of ThingSpeak.
-	 * @param client EthernetClient, YunClient, TCPClient, or WiFiClient created earlier in the sketch
+	 * @param client TCPClient created earlier in the sketch
 	 * @param customHostName Host name of a custom install of ThingSpeak
 	 * @param port Port number to use with a custom install of ThingSpeak
 	 * @return Always returns true
      * @comment This does not validate the information passed in, or generate any calls to ThingSpeak.
 	 * @code
-		#include <SPI.h>
-		#include <Ethernet.h>
-		byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-		EthernetClient client;
 
 		#include "ThingSpeak.h"
+		TCPClient client;
 
 		void setup() {
-		  Ethernet.begin(mac);
 		  ThingSpeak.begin(client,"api.thingspeak.com", 80);
 		}
 	 * @endcode
@@ -184,21 +161,17 @@ class ThingSpeakClass
 
 	/**
 	 * @brief Initializes the ThingSpeak library and network settings using a custom installation of ThingSpeak.
-	 * @param client EthernetClient, YunClient, TCPClient, or WiFiClient created earlier in the sketch
+	 * @param client TCPClient created earlier in the sketch
 	 * @param customIP IP address of a custom install of ThingSpeak
 	 * @param port Port number to use with a custom install of ThingSpeak
 	 * @return Always returns true
      * @comment This does not validate the information passed in, or generate any calls to ThingSpeak.
 	 * @code
-		#include <SPI.h>
-		#include <Ethernet.h>
-		byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-		EthernetClient client;
 
-		#include "ThingSpeak.h"
+		#include "ThingSpeak/ThingSpeak.h"
+		TCPClient client;
 
 		void setup() {
-		  Ethernet.begin(mac);
 		  ThingSpeak.begin(client,IPAddress(184,106,153,149), 80);
 		}
 	 * @endcode
@@ -217,19 +190,15 @@ class ThingSpeakClass
 
 	/**
 	 * @brief Initializes the ThingSpeak library and network settings using the ThingSpeak.com service.
-	 * @param client EthernetClient, YunClient, TCPClient, or WiFiClient created earlier in the sketch
+	 * @param client TCPClient created earlier in the sketch
 	 * @return Always returns true
      * @comment This does not validate the information passed in, or generate any calls to ThingSpeak.
 	 * @code
-		#include <SPI.h>
-		#include <Ethernet.h>
-		byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-		EthernetClient client;
 
 		#include "ThingSpeak.h"
+		TCPClient client;
 
 		void setup() {
-		  Ethernet.begin(mac);
 		  ThingSpeak.begin(client);
 		}
 	 * @endcode
@@ -264,14 +233,8 @@ class ThingSpeakClass
 	 */
 	int writeField(unsigned long channelNumber, unsigned int field, int value, const char * writeAPIKey)
 	{
-#ifdef SPARK
-        // On Spark, int and long are the same, so map to the long version
-        return writeField(channelNumber, field, (long)value, writeAPIKey);
-#else
-		char valueString[10];  // int range is -32768 to 32768, so 7 bytes including terminator, plus a little extra
-        itoa(value, valueString, 10);
-		return writeField(channelNumber, field, valueString, writeAPIKey);
-#endif
+		// On Spark, int and long are the same, so map to the long version
+		return writeField(channelNumber, field, (long)value, writeAPIKey);
 	};
 
 	/**
@@ -308,7 +271,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensorValue = analogRead(A0);
-			float voltage = sensorValue * (5.0 / 1023.0);
+			float voltage = sensorValue * (3.3 / 4095.0);
 			ThingSpeak.writeField(myChannelNumber, 1, voltage, myWriteAPIKey);
 			delay(20000);
 		}
@@ -384,11 +347,7 @@ class ThingSpeakClass
 		if(value.length() > FIELDLENGTH_MAX) return ERR_OUT_OF_RANGE;
 		
 		#ifdef PRINT_DEBUG_MESSAGES
-		  #ifdef SPARK
-            Particle.publish(SPARK_PUBLISH_TOPIC, "writeField (" + String(channelNumber) + ", " + String(writeAPIKey) + ", " + String(field) + ", " + String(value) + ")", SPARK_PUBLISH_TTL, PRIVATE);
-          #else
-			Serial.print("ts::writeField (channelNumber: "); Serial.print(channelNumber); Serial.print(" writeAPIKey: "); Serial.print(writeAPIKey); Serial.print(" field: "); Serial.print(field); Serial.print(" value: \""); Serial.print(value); Serial.println("\")");
-		  #endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "writeField (" + String(channelNumber) + ", " + String(writeAPIKey) + ", " + String(field) + ", " + String(value) + ")", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		String postMessage = String("field") + String(field) + "=" + value;
 		return writeRaw(channelNumber, postMessage, writeAPIKey);
@@ -405,7 +364,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -428,15 +387,8 @@ class ThingSpeakClass
 	 */
 	int setField(unsigned int field, int value)
 	{
-#ifdef SPARK
         // On Spark, int and long are the same, so map to the long version
         return setField(field, (long)value);
-#else
-		char valueString[10];  // int range is -32768 to 32768, so 7 bytes including terminator
-	    itoa(value, valueString, 10);
-		
-		return setField(field, valueString);
-#endif
 	};
 
 	/**
@@ -449,7 +401,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -488,7 +440,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -528,7 +480,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -564,7 +516,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -588,11 +540,7 @@ class ThingSpeakClass
     int setField(unsigned int field, String value)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-		  #ifdef SPARK
             Particle.publish(SPARK_PUBLISH_TOPIC, "setField " + String(field) + " to " + String(value), SPARK_PUBLISH_TTL, PRIVATE);
-          #else
-			Serial.print("ts::setField   (field: "); Serial.print(field); Serial.print(" value: \""); Serial.print(value); Serial.println("\")");
-		  #endif
 		#endif
 		if(field < FIELDNUM_MIN || field > FIELDNUM_MAX) return ERR_INVALID_FIELD_NUM;
 		// Max # bytes for ThingSpeak field is 255 (UTF-8)
@@ -611,7 +559,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -654,7 +602,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -697,7 +645,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -741,7 +689,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 			int sensor1Value = analogRead(A0);
-			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
 			String sensor3Meaning;
 			int sensor3Value = analogRead(A2);
 			if (sensor3Value < 400) {
@@ -883,11 +831,7 @@ class ThingSpeakClass
 		postMessage = postMessage + String("&headers=false");
 
 		#ifdef PRINT_DEBUG_MESSAGES
-		  #ifdef SPARK
             Particle.publish(SPARK_PUBLISH_TOPIC, "Post " + postMessage, SPARK_PUBLISH_TTL, PRIVATE);
-          #else
-			Serial.print("               POST \"");Serial.print(postMessage);Serial.println("\"");
-		  #endif
 		#endif
 
 		postMessage = postMessage + String("\n");
@@ -936,8 +880,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  String message = ThingSpeak.readStringField(myChannelNumber, 1, myReadAPIKey);
-		  Serial.print("Latest message is: "); 
-		  Serial.println(message);
+		  Particle.publish("Latest message is: " + message); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -969,8 +912,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  String message = ThingSpeak.readStringField(myChannelNumber, 1);
-		  Serial.print("Latest message is: "); 
-		  Serial.println(message);
+		  Particle.publish("Latest message is: " + message); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -990,9 +932,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  float voltage = ThingSpeak.readFloatField(myChannelNumber, 1, myReadAPIKey);
-		  Serial.print("Latest voltage is: "); 
-		  Serial.print(voltage);
-		  Serial.println("V"); 
+		  Particle.publish("Latest voltage is: " + String(voltage) + "V"); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1011,9 +951,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  float voltage = ThingSpeak.readFloatField(myChannelNumber, 1);
-		  Serial.print("Latest voltage is: "); 
-		  Serial.print(voltage);
-		  Serial.println("V"); 
+		  Particle.publish("Latest voltage is: " + String(voltage) + "V");  
 		  delay(30000);
 		}
 	 * @endcode
@@ -1033,8 +971,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  long value = ThingSpeak.readLongField(myChannelNumber, 1, myReadAPIKey);
-		  Serial.print("Latest value is: "); 
-		  Serial.print(value);
+		  Particle.publish("Latest value is: " + String(value)); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1054,8 +991,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  long value = ThingSpeak.readLongField(myChannelNumber, 1);
-		  Serial.print("Latest value is: "); 
-		  Serial.print(value);
+		  Particle.publish("Latest value is: " + String(value)); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1076,8 +1012,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  int value = ThingSpeak.readIntField(myChannelNumber, 1, myReadAPIKey);
-		  Serial.print("Latest value is: "); 
-		  Serial.print(value);
+		  Particle.publish("Latest value is: " + String(value)); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1097,8 +1032,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  int value = ThingSpeak.readIntField(myChannelNumber, 1);
-		  Serial.print("Latest value is: "); 
-		  Serial.print(value);
+		  Particle.publish("Latest value is: " + String(value)); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1117,8 +1051,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  String response = ThingSpeak.readRaw(myChannelNumber, String("feeds/days=1"));
-		  Serial.print("Response: "); 
-		  Serial.print(response);
+		  Particle.publish("Response: " + response); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1138,8 +1071,7 @@ class ThingSpeakClass
 	 * @code
 		void loop() {
 		  String response = ThingSpeak.readRaw(myChannelNumber, String("feeds/days=1"), myReadAPIKey);
-		  Serial.print("Response: "); 
-		  Serial.print(response);
+		  Particle.publish("Response: " + response); 
 		  delay(30000);
 		}
 	 * @endcode
@@ -1222,13 +1154,11 @@ class ThingSpeakClass
 		  int resultCode = ThingSpeak.getLastReadStatus();
 		  if(resultCode == 200)
 		  {
-			  Serial.print("Latest message is: "); 
-			  Serial.println(message);
+			  Particle.publish("Latest message is: " + message); 
 		  }
 		  else
 		  {
-			  Serial.print("Error reading message.  Status was: "); 
-			  Serial.println(resultCode);
+			  Particle.publish("Error reading message.  Status was: " + String(resultCode)); 
 		  }
 		  delay(30000);
 		}
@@ -1329,11 +1259,7 @@ private:
 		    {
 			    // Connect to the server on port 80 (HTTP) at the URL address
 			    #ifdef PRINT_DEBUG_MESSAGES
-    		      #ifdef SPARK
                     Particle.publish(SPARK_PUBLISH_TOPIC, "Attempt Connect to URL " + String(this->customHostName), SPARK_PUBLISH_TTL, PRIVATE);
-                  #else
-				    Serial.print("               Connect to ");Serial.print(this->customHostName);Serial.print(" ...");
-			      #endif
 			    #endif
 			    connectSuccess = client->connect(customHostName,this->port);
 		    }
@@ -1342,19 +1268,11 @@ private:
 		#ifdef PRINT_DEBUG_MESSAGES
 		if (connectSuccess)
 		{
-    	    #ifdef SPARK
-              Particle.publish(SPARK_PUBLISH_TOPIC, "Connection Success", SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-		      Serial.println("Success.");
-		    #endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Connection Success", SPARK_PUBLISH_TTL, PRIVATE);
 		}
 		else
 		{
-    	    #ifdef SPARK
-              Particle.publish(SPARK_PUBLISH_TOPIC, "Connection Failure", SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-  			  Serial.println("Failed.");
-  			#endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Connection Failure", SPARK_PUBLISH_TTL, PRIVATE);
 		}
 		#endif
 		return connectSuccess;
@@ -1400,21 +1318,13 @@ private:
 		if(!client->find(const_cast<char *>("HTTP/1.1")))
 		{
 			#ifdef PRINT_HTTP
-                #ifdef SPARK
-                    Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find HTTP/1.1", SPARK_PUBLISH_TTL, PRIVATE);
-                #else
-    				Serial.println("ERROR: Didn't find HTTP/1.1");
-    			#endif
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find HTTP/1.1", SPARK_PUBLISH_TTL, PRIVATE);
     		#endif
 			return ERR_BAD_RESPONSE; // Couldn't parse response (didn't find HTTP/1.1)
 		}
 		int status = client->parseInt();
 		#ifdef PRINT_HTTP
-            #ifdef SPARK
-                Particle.publish(SPARK_PUBLISH_TOPIC, "Got Status of " + String(status), SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-    			Serial.print("Got Status of ");Serial.println(status);
-    		#endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Got Status of " + String(status), SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		if(status != OK_SUCCESS)
 		{
@@ -1424,49 +1334,29 @@ private:
 		if(!client->find(const_cast<char *>("\r\n")))
 		{
 			#ifdef PRINT_HTTP
-                #ifdef SPARK
-                    Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find end of status line", SPARK_PUBLISH_TTL, PRIVATE);
-                #else
-    				Serial.println("ERROR: Didn't find end of status line");
-    			#endif
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find end of status line", SPARK_PUBLISH_TTL, PRIVATE);
 			#endif
 			return ERR_BAD_RESPONSE;
 		}
 		#ifdef PRINT_HTTP
-            #ifdef SPARK
-                Particle.publish(SPARK_PUBLISH_TOPIC, "Found end of status line", SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-    			Serial.println("Found end of status line");
-    	    #endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Found end of status line", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 
 		if(!client->find(const_cast<char *>("\n\r\n")))
 		{
 			#ifdef PRINT_HTTP
-                #ifdef SPARK
-                    Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find end of header", SPARK_PUBLISH_TTL, PRIVATE);
-                #else
-    				Serial.println("ERROR: Didn't find end of header");
-    			#endif
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ERROR: Didn't find end of header", SPARK_PUBLISH_TTL, PRIVATE);
 			#endif
 			return ERR_BAD_RESPONSE;
 		}
 		#ifdef PRINT_HTTP
-            #ifdef SPARK
-                Particle.publish(SPARK_PUBLISH_TOPIC, "Found end of header", SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-			    Serial.println("Found end of header");
-			#endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Found end of header", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		// This is a workaround to a bug in the Spark implementation of String
 		String tempString = client->readStringUntil('\r');
 		response = tempString;
 		#ifdef PRINT_HTTP
-            #ifdef SPARK
-                Particle.publish(SPARK_PUBLISH_TOPIC, "Response: \"" + tempString + "\"", SPARK_PUBLISH_TTL, PRIVATE);
-            #else
-    			Serial.print("Response: \"");Serial.print(response);Serial.println("\"");
-			#endif
+			Particle.publish(SPARK_PUBLISH_TOPIC, "Response: \"" + tempString + "\"", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		return status;
 	};
@@ -1480,11 +1370,8 @@ private:
 			return ERR_OUT_OF_RANGE;
 		}
 		// Given that the resolution of Spark is 1 / 2^12, or ~0.00024 volts, assume that 5 places right of decimal should be sufficient for most applications
-        #ifdef SPARK
-          sprintf(valueString, "%.5f", value);
-        #else
-		  dtostrf(value,1,5, valueString);
-        #endif
+        sprintf(valueString, "%.5f", value);
+
 		return OK_SUCCESS;
 	};
 
