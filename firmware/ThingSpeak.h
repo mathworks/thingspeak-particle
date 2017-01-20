@@ -6,7 +6,7 @@
 
   ThingSpeak ( https://www.thingspeak.com ) is an analytic IoT platform service that allows you to aggregate, visualize and analyze live data streams in the cloud.
   
-  Copyright 2016, The MathWorks, Inc.
+  Copyright 2017, The MathWorks, Inc.
  
   See the accompaning licence file for licensing information.
 */
@@ -88,13 +88,13 @@
 
 
 #ifdef PARTICLE_CORE
-	#define TS_USER_AGENT "tslib-arduino/1.0 (particle core)"
+	#define TS_USER_AGENT "tslib-arduino/1.3 (particle core)"
 #elif defined(PARTICLE_PHOTON)
-	#define TS_USER_AGENT "tslib-arduino/1.0 (particle photon)"
+	#define TS_USER_AGENT "tslib-arduino/1.3 (particle photon)"
 #elif defined(PARTICLE_ELECTRON)
-	#define TS_USER_AGENT "tslib-arduino/1.0 (particle electron)"
+	#define TS_USER_AGENT "tslib-arduino/1.3 (particle electron)"
 #elif defined(PARTICLE_P1)
-	#define TS_USER_AGENT "tslib-arduino/1.0 (particle p1)"
+	#define TS_USER_AGENT "tslib-arduino/1.3 (particle p1)"
 #endif
 #define SPARK_PUBLISH_TTL 60 // Spark "time to live" for published messages
 #define SPARK_PUBLISH_TOPIC "thingspeak-debug"
@@ -150,7 +150,7 @@ class ThingSpeakClass
     bool begin(Client & client, const char * customHostName, unsigned int port)
 	{
 #ifdef PRINT_DEBUG_MESSAGES
-		Serial.print("ts::tsBegin    (client: Client URL: "); Serial.print(customHostName); Serial.println(")");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "ts::tsBegin    (client: Client URL: " + String(customHostName) + ")", SPARK_PUBLISH_TTL, PRIVATE);
 #endif
 	this->setClient(&client);
 	this->setServer(customHostName, port);
@@ -179,7 +179,7 @@ class ThingSpeakClass
 	bool begin(Client & client, IPAddress customIP, unsigned int port)
 	{
 #ifdef PRINT_DEBUG_MESSAGES
-		Serial.print("ts::tsBegin    (client: Client IP: "); Serial.print(customIP); Serial.println(")");
+	Particle.publish(SPARK_PUBLISH_TOPIC, "ts::tsBegin    (client: Client IP: " + String(customIP) + ")" , SPARK_PUBLISH_TTL, PRIVATE);
 #endif
 		this->setClient(&client);
 		this->setServer(customIP, port);
@@ -206,7 +206,7 @@ class ThingSpeakClass
 	bool begin(Client & client)
 	{
 #ifdef PRINT_DEBUG_MESSAGES
-		Serial.print("ts::tsBegin");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "ts::tsBegin" , SPARK_PUBLISH_TTL, PRIVATE);
 #endif
 		this->setClient(&client);
 		this->setServer();
@@ -280,7 +280,7 @@ class ThingSpeakClass
 	int writeField(unsigned long channelNumber, unsigned int field, float value, const char * writeAPIKey)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::writeField (channelNumber: "); Serial.print(channelNumber); Serial.print(" writeAPIKey: "); Serial.print(writeAPIKey); Serial.print(" field: "); Serial.print(field); Serial.print(" value: "); Serial.print(value,5); Serial.println(")");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "ts::writeField (channelNumber: " + String(channelNumber) + " writeAPIKey: " + String(writeAPIKey) + " field: " + String(field) + " value: " + String(value,5) + ")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		char valueString[20]; // range is -999999000000.00000 to 999999000000.00000, so 19 + 1 for the terminator
 		int status = convertFloatToChar(value, valueString);
@@ -586,7 +586,7 @@ class ThingSpeakClass
 	int setLatitude(float latitude)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setLatitude(latitude: "); Serial.print(latitude,3); Serial.println("\")");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setLatitude(latitude: " + String(latitude,3) + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->nextWriteLatitude = latitude;
 		return OK_SUCCESS;
@@ -629,7 +629,7 @@ class ThingSpeakClass
 	int setLongitude(float longitude)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setLongitude(longitude: "); Serial.print(longitude,3); Serial.println("\")");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setLongitude(longitude: " + String(longitude,3) + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->nextWriteLongitude = longitude;
 		return OK_SUCCESS;
@@ -672,11 +672,334 @@ class ThingSpeakClass
 	int setElevation(float elevation)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setElevation(elevation: "); Serial.print(elevation,3); Serial.println("\")");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setElevation(elevation: " + String(elevation,3) + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->nextWriteElevation = elevation;
 		return OK_SUCCESS;
 	};
+	
+	/**
+	 * @brief Set the status of a multi-field update.
+	 * To record a status message on a write, call setStatus() then call writeFields(). Use status to provide additonal 
+	 * details when writing a channel update.  Additonally, status can be used by the ThingTweet App to send a message to
+	 * Twitter.
+	 * @param status String to write (UTF8).  ThingSpeak limits this to 255 bytes.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @see writeFields()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setStatus(sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);
+		}
+	 * @endcode
+	 */
+	
+    int setStatus(const char * status)
+	{
+		return setStatus(String(status));
+	};
+
+	/**
+	 * @brief Set the status of a multi-field update.
+	 * To record a status message on a write, call setStatus() then call writeFields(). Use status to provide additonal 
+	 * details when writing a channel update.  Additonally, status can be used by the ThingTweet App to send a message to
+	 * Twitter.
+	 * @param status String to write (UTF8).  ThingSpeak limits this to 255 bytes.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @see writeFields()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setStatus(sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);
+		}
+	 * @endcode
+	 */
+    int setStatus(String status)
+	{
+		#ifdef PRINT_DEBUG_MESSAGES
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setStatus(status: " + status + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
+		#endif
+		// Max # bytes for ThingSpeak field is 255 (UTF-8)
+		if(status.length() > FIELDLENGTH_MAX) return ERR_OUT_OF_RANGE;
+		this->nextWriteStatus = status;
+		return OK_SUCCESS;
+	};
+
+	/**
+	 * @brief Set the Twitter account and message to use for an update to be tweeted.
+	 * To send a message to twitter call setTwitterTweet() then call writeFields()
+	 * @param twitter Twitter account name as a String.
+	 * @param tweet Twitter message as a String (UTF-8) limited to 140 character.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Prior to using this feature, a twitter account must be linked to your ThingSpeak account. Do this by logging into ThingSpeak and going to Apps, then ThingTweet and clicking Link Twitter Account.
+	 * @see writeFields(),getLastReadStatus()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setTwitterTweet("YourTwitterAccountName",sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);	
+		}
+	 * @endcode
+	 */	
+	int setTwitterTweet(const char * twitter, const char * tweet)
+	{
+		return setTwitterTweet(String(twitter), String(tweet));
+	};
+
+	/**
+	 * @brief Set the Twitter account and message to use for an update to be tweeted.
+	 * To send a message to twitter call setTwitterTweet() then call writeFields()
+	 * @param twitter Twitter account name as a String.
+	 * @param tweet Twitter message as a String (UTF-8) limited to 140 character.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Prior to using this feature, a twitter account must be linked to your ThingSpeak account. Do this by logging into ThingSpeak and going to Apps, then ThingTweet and clicking Link Twitter Account.
+	 * @see writeFields(),getLastReadStatus()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setTwitterTweet("YourTwitterAccountName",sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);	
+		}
+	 * @endcode
+	 */	
+	int setTwitterTweet(String twitter, const char * tweet)
+	{
+		return setTwitterTweet(twitter, String(tweet));
+	};
+
+	/**
+	 * @brief Set the Twitter account and message to use for an update to be tweeted.
+	 * To send a message to twitter call setTwitterTweet() then call writeFields()
+	 * @param twitter Twitter account name as a String.
+	 * @param tweet Twitter message as a String (UTF-8) limited to 140 character.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Prior to using this feature, a twitter account must be linked to your ThingSpeak account. Do this by logging into ThingSpeak and going to Apps, then ThingTweet and clicking Link Twitter Account.
+	 * @see writeFields(),getLastReadStatus()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setTwitterTweet("YourTwitterAccountName",sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);	
+		}
+	 * @endcode
+	 */	
+	int setTwitterTweet(const char * twitter, String tweet)
+	{
+		return setTwitterTweet(String(twitter), tweet);
+	};
+
+	/**
+	 * @brief Set the Twitter account and message to use for an update to be tweeted.
+	 * To send a message to twitter call setTwitterTweet() then call writeFields()
+	 * @param twitter Twitter account name as a String.
+	 * @param tweet Twitter message as a String (UTF-8) limited to 140 character.
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Prior to using this feature, a twitter account must be linked to your ThingSpeak account. Do this by logging into ThingSpeak and going to Apps, then ThingTweet and clicking Link Twitter Account.
+	 * @see writeFields(),getLastReadStatus()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (5.0 / 1023.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, timeRead);
+			ThingSpeak.setTwitterTweet("YourTwitterAccountName",sensor3Meaning);
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);	
+		}
+	 * @endcode
+	 */	
+	int setTwitterTweet(String twitter, String tweet){
+		#ifdef PRINT_DEBUG_MESSAGES
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setTwitter(twitter: " + twitter + ", tweet: " + tweet + ")" , SPARK_PUBLISH_TTL, PRIVATE);
+		#endif
+		// Max # bytes for ThingSpeak field is 255 (UTF-8)
+		if((twitter.length() > FIELDLENGTH_MAX) || (tweet.length() > FIELDLENGTH_MAX)) return ERR_OUT_OF_RANGE;
+		
+		this->nextWriteTwitter = twitter;
+		this->nextWriteTweet = tweet;
+		
+		return OK_SUCCESS;	
+	};	
+	
+	/**
+	 * @brief Set the created-at date of a multi-field update.
+	 * To record created-at of a write, call setField() for each of the fields you want to write, setCreatedAt(), and then call writeFields()
+	 * @param createdAt Desired timestamp to be included with the channel update as a String.  The timestamp string must be in the ISO 8601 format. Example "2017-01-12 13:22:54"
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Timezones can be set using the timezone hour offset parameter. For example, a timestamp for Eastern Standard Time is: "2017-01-12 13:22:54-05".  If no timezone hour offset parameter is used, UTC time is assumed.
+	 * @see setField(), writeFields()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, sensor3Meaning);
+			ThingSpeak.setField(4, timeRead);
+			ThingSpeak.setCreatedAt("2017-01-06T13:56:28");
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);
+		}
+	 * @endcode
+	 */
+
+	 int setCreatedAt(const char * createdAt)
+	{
+		return setCreatedAt(String(createdAt));
+	}
+	
+    /**
+	 * @brief Set the created-at date of a multi-field update.
+	 * To record created-at of a write, call setField() for each of the fields you want to write, setCreatedAt(), and then call writeFields()
+	 * @param createdAt Desired timestamp to be included with the channel update as a String.  The timestamp string must be in the ISO 8601 format. Example "2017-01-12 13:22:54"
+	 * @return HTTP status code of 200 if successful.  See getLastReadStatus() for other possible return values.
+	 * @remark Timezones can be set using the timezone hour offset parameter. For example, a timestamp for Eastern Standard Time is: "2017-01-12 13:22:54-05".  If no timezone hour offset parameter is used, UTC time is assumed.
+	 * @see setField(), writeFields()
+	 * @code
+		void loop() {
+			int sensor1Value = analogRead(A0);
+			float sensor2Voltage = analogRead(A1) * (3.3 / 4095.0);
+			String sensor3Meaning;
+			int sensor3Value = analogRead(A2);
+			if (sensor3Value < 400) {
+				sensor3Meaning = String("Too Cold!");
+			} else if (sensor3Value > 600) {
+				sensor3Meaning = String("Too Hot!");
+			} else {
+				sensor3Meaning = String("Just Right");
+			}
+			long timeRead = millis();
+
+			ThingSpeak.setField(1, sensor1Value);
+			ThingSpeak.setField(2, sensor2Voltage);
+			ThingSpeak.setField(3, sensor3Meaning);
+			ThingSpeak.setField(4, timeRead);
+			ThingSpeak.setCreatedAt("2017-01-06T13:56:28");
+			ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+			delay(20000);
+		}
+	 * @endcode
+	 */	
+	int setCreatedAt(String createdAt)
+	{
+		#ifdef PRINT_DEBUG_MESSAGES
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setCreatedAt(createdAt: " + createdAt + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
+		#endif
+		
+		// the ISO 8601 format is too complicated to check for valid timestamps here
+		// we'll need to reply on the api to tell us if there is a problem
+		// Max # bytes for ThingSpeak field is 255 (UTF-8)
+		if(createdAt.length() > FIELDLENGTH_MAX) return ERR_OUT_OF_RANGE;
+		this->nextWriteCreatedAt = createdAt;
+		
+		return OK_SUCCESS;
+	}
+	
 
 
 	/**
@@ -764,7 +1087,52 @@ class ThingSpeakClass
 			fFirstItem = false;
 			this->nextWriteElevation = NAN;
 		}
-
+		
+		if(this->nextWriteStatus.length() > 0)
+		{
+			if(!fFirstItem)
+			{
+				postMessage = postMessage + String("&");
+			}
+			postMessage = postMessage + String("status=") + String(this->nextWriteStatus);
+			fFirstItem = false;
+			this->nextWriteStatus = "";
+		}
+		
+		if(this->nextWriteTwitter.length() > 0)
+		{
+			if(!fFirstItem)
+			{
+				postMessage = postMessage + String("&");
+			}
+			postMessage = postMessage + String("twitter=") + String(this->nextWriteTwitter);
+			fFirstItem = false;
+			this->nextWriteTwitter = "";
+		}
+		
+		if(this->nextWriteTweet.length() > 0)
+		{
+			if(!fFirstItem)
+			{
+				postMessage = postMessage + String("&");
+			}
+			postMessage = postMessage + String("tweet=") + String(this->nextWriteTweet);
+			fFirstItem = false;
+			this->nextWriteTweet = "";
+		}
+		
+		if(this->nextWriteCreatedAt.length() > 0)
+		{
+			if(!fFirstItem)
+			{
+				postMessage = postMessage + String("&");
+			}
+			postMessage = postMessage + String("created_at=") + String(this->nextWriteCreatedAt);
+			fFirstItem = false;
+			this->nextWriteCreatedAt = "";
+		}
+		
+		
 		if(fFirstItem)
 		{
 			// setField was not called before writeFields
@@ -819,7 +1187,7 @@ class ThingSpeakClass
 	int writeRaw(unsigned long channelNumber, String postMessage, const char * writeAPIKey)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::writeRaw   (channelNumber: "); Serial.print(channelNumber); Serial.print(" writeAPIKey: "); Serial.print(writeAPIKey); Serial.print(" postMessage: \""); Serial.print(postMessage); Serial.println("\")");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::writeRaw   (channelNumber: " + String(channelNumber) + " writeAPIKey: " + String(writeAPIKey) + " postMessage: \"" + postMessage + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 
 		if(!connectThingSpeak())
@@ -837,12 +1205,12 @@ class ThingSpeakClass
 		postMessage = postMessage + String("\n");
 
 		// Post data to thingspeak
-		if(!this->client->print("POST /update HTTP/1.1\n")) return abortWriteRaw();
+		if(!this->client->print("POST /update HTTP/1.1\r\n")) return abortWriteRaw();
 		if(!writeHTTPHeader(writeAPIKey)) return abortWriteRaw();
-		if(!this->client->print("Content-Type: application/x-www-form-urlencoded\n")) return abortWriteRaw();
+		if(!this->client->print("Content-Type: application/x-www-form-urlencoded\r\n")) return abortWriteRaw();
 		if(!this->client->print("Content-Length: ")) return abortWriteRaw();
 		if(!this->client->print(postMessage.length())) return abortWriteRaw();
-		if(!this->client->print("\n\n")) return abortWriteRaw();
+		if(!this->client->print("\r\n\r\n")) return abortWriteRaw();
 		if(!this->client->print(postMessage)) return abortWriteRaw();
   
 		String entryIDText = String();
@@ -855,13 +1223,13 @@ class ThingSpeakClass
 		long entryID = entryIDText.toInt();
 
 		#ifdef PRINT_DEBUG_MESSAGES
-		Serial.print("               Entry ID \"");Serial.print(entryIDText);Serial.print("\" (");Serial.print(entryID);Serial.println(")");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "               Entry ID \"" + entryIDText + "\" (" + String(entryID) + ")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 
 		client->stop();
 		
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.println("disconnected.");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "disconnected.", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		if(entryID == 0)
 		{
@@ -893,12 +1261,14 @@ class ThingSpeakClass
 			return("");
 		}
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::readStringField(channelNumber: "); Serial.print(channelNumber); 
+			
 			if(NULL != readAPIKey)
 			{
-				Serial.print(" readAPIKey: "); Serial.print(readAPIKey);
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ts::readStringField(channelNumber: " + String(channelNumber) + " readAPIKey: " + String(readAPIKey) + " field: " + String(field) +")", SPARK_PUBLISH_TTL, PRIVATE);
 			}
-			Serial.print(" field: "); Serial.print(field); Serial.println(")");
+			else{
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ts::readStringField(channelNumber: " + String(channelNumber) + " field: " + String(field) + ")", SPARK_PUBLISH_TTL, PRIVATE);	
+			}
 		#endif
 		return readRaw(channelNumber, String(String("/fields/") + String(field) + String("/last")), readAPIKey);
 	}
@@ -1041,6 +1411,88 @@ class ThingSpeakClass
 	{
 		return readLongField(channelNumber, field, NULL);
 	};
+
+	/**
+	 * @brief Read the latest status from a private ThingSpeak channel
+	 * @param channelNumber Channel number
+	 * @param readAPIKey Read API key associated with the channel.  *If you share code with others, do _not_ share this key*
+	 * @return Value read (UTF8 string). An empty string is returned if there was no status written to the channel or in case of an error.  Use getLastReadStatus() to get more specific information.
+	 * @code
+		void loop() {
+		  String value = ThingSpeak.readStatus(myChannelNumber, myReadAPIKey);
+		  Particle.publish("Latest status is: " + value); 
+		  delay(30000);
+		}
+	 * @endcode
+	 */	
+	String readStatus(unsigned long channelNumber, const char * readAPIKey)
+	{
+		String content = readRaw(channelNumber, "/feeds/last.txt?status=true", readAPIKey);
+		
+		if(getLastReadStatus() != OK_SUCCESS){
+			return String("");
+		}
+		
+		return getJSONValueByKey(content, "status");
+	};
+	
+		/**
+	 * @brief Read the latest status from a public ThingSpeak channel
+	 * @param channelNumber Channel number	
+	 * @return Value read (UTF8 string). An empty string is returned if there was no status written to the channel or in case of an error.  Use getLastReadStatus() to get more specific information.
+	 * @code
+		void loop() {
+		  String value = ThingSpeak.readStatus(myChannelNumber, myReadAPIKey);
+		  Particle.publish("Latest status is: " + value); 
+		  delay(30000);
+		}
+	 * @endcode
+	 */
+	String readStatus(unsigned long channelNumber)
+	{
+		return readStatus(channelNumber, NULL);
+	};
+	
+	/**
+	 * @brief Read the created-at timestamp associated with the latest update to a private ThingSpeak channel
+	 * @param channelNumber Channel number
+	 * @param readAPIKey Read API key associated with the channel.  *If you share code with others, do _not_ share this key*
+	 * @return Value read (UTF8 string). An empty string is returned if there was no created-at timestamp written to the channel or in case of an error.  Use getLastReadStatus() to get more specific information.
+	 * @code
+		void loop() {
+		  String value = ThingSpeak.readCreatedAt(myChannelNumber);
+		  Particle.publish("Latest update timestamp is: " + value); 
+		  delay(30000);
+		}
+	 * @endcode
+	 */	
+	String readCreatedAt(unsigned long channelNumber, const char * readAPIKey)
+	{
+		String content = readRaw(channelNumber, "/feeds/last.txt", readAPIKey);
+		
+		if(getLastReadStatus() != OK_SUCCESS){
+			return String("");
+		}
+		
+		return getJSONValueByKey(content, "created_at");
+	};
+
+	/**
+	 * @brief Read the created-at timestamp associated with the latest update to a private ThingSpeak channel
+	 * @param channelNumber Channel number
+	 * @return Value read (UTF8 string). An empty string is returned if there was no created-at timestamp written to the channel or in case of an error.  Use getLastReadStatus() to get more specific information.
+	 * @code
+		void loop() {
+		  String value = ThingSpeak.readCreatedAt(myChannelNumber);
+		  Particle.publish("Latest update timestamp is: " + value); 
+		  delay(30000);
+		}
+	 * @endcode
+	 */	
+	String readCreatedAt(unsigned long channelNumber)
+	{
+		return readCreatedAt(channelNumber, NULL);
+	};
 	
 	/**
 	 * @brief Read a raw response from a public ThingSpeak channel
@@ -1079,12 +1531,14 @@ class ThingSpeakClass
 	String readRaw(unsigned long channelNumber, String URLSuffix, const char * readAPIKey)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::readRaw   (channelNumber: "); Serial.print(channelNumber);
 			if(NULL != readAPIKey)
 			{
-				Serial.print(" readAPIKey: "); Serial.print(readAPIKey);
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ts::readRaw   (channelNumber: " + String(channelNumber) + " readAPIKey: " + String(readAPIKey) + " URLSuffix: \"" + URLSuffix + "\")" , SPARK_PUBLISH_TTL, PRIVATE);	
 			}
-			Serial.print(" URLSuffix: \""); Serial.print(URLSuffix); Serial.println("\")");
+			else
+			{
+				Particle.publish(SPARK_PUBLISH_TOPIC, "ts::readRaw   (channelNumber: " + String(channelNumber) + " URLSuffix: \"" + URLSuffix + "\")" , SPARK_PUBLISH_TTL, PRIVATE);	
+			}
 		#endif
 
 		if(!connectThingSpeak())
@@ -1096,15 +1550,15 @@ class ThingSpeakClass
 		String URL = String("/channels/") + String(channelNumber) + URLSuffix;
 
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("               GET \"");Serial.print(URL);Serial.println("\"");
+		Particle.publish(SPARK_PUBLISH_TOPIC,"               GET \"" + URL + "\"" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 
 		// Post data to thingspeak
 		if(!this->client->print("GET ")) return abortReadRaw();
 		if(!this->client->print(URL)) return abortReadRaw();
-		if(!this->client->print(" HTTP/1.1\n")) return abortReadRaw();
+		if(!this->client->print(" HTTP/1.1\r\n")) return abortReadRaw();
 		if(!writeHTTPHeader(readAPIKey)) return abortReadRaw();
-		if(!this->client->print("\n")) return abortReadRaw();
+		if(!this->client->print("\r\n")) return abortReadRaw();
  
 		String content = String();
 		int status = getHTTPResponse(content);
@@ -1114,13 +1568,13 @@ class ThingSpeakClass
 		#ifdef PRINT_DEBUG_MESSAGES
 			if(status == OK_SUCCESS)
 			{
-				Serial.print("Read: \""); Serial.print(content); Serial.println("\"");
+				Particle.publish(SPARK_PUBLISH_TOPIC, "Read: \"" + content + "\"" , SPARK_PUBLISH_TTL, PRIVATE);
 			}
 		#endif
 
 		client->stop();
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.println("disconnected.");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "disconnected." , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 
 		if(status != OK_SUCCESS)
@@ -1170,6 +1624,36 @@ class ThingSpeakClass
 	};
 private:
 
+	String getJSONValueByKey(String textToSearch, String key)
+	{	
+		if(textToSearch.length() == 0){
+			return String("");
+		} 
+		
+		String searchPhrase = String("\"") + key + String("\":\"");
+		
+		int fromPosition = textToSearch.indexOf(searchPhrase,0);
+		
+		if(fromPosition == -1){
+			// return because there is no status or it's null
+			return String("");
+		}
+		
+		fromPosition = fromPosition + searchPhrase.length();
+				
+		int toPosition = textToSearch.indexOf("\"", fromPosition);
+		
+		
+		if(toPosition == -1){
+			// return because there is no end quote
+			return String("");
+		}
+		
+		textToSearch.remove(toPosition);
+		
+		return textToSearch.substring(fromPosition);	
+	}
+	
     int abortWriteRaw()
     {
         this->client->stop();
@@ -1180,7 +1664,7 @@ private:
     {
 		this->client->stop();
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.println("ReadRaw abort - disconnected.");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ReadRaw abort - disconnected." , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->lastReadStatus = ERR_UNEXPECTED_FAIL;
 		return String("");
@@ -1189,7 +1673,7 @@ private:
 	void setServer(const char * customHostName, unsigned int port)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setServer  (URL: \""); Serial.print(customHostName); Serial.println("\")");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setServer  (URL: \"" + String(customHostName) + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->customIP = INADDR_NONE;
 		this->customHostName = customHostName;
@@ -1199,7 +1683,7 @@ private:
 	void setServer(IPAddress customIP, unsigned int port)
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setServer  (IP: \""); Serial.print(customIP); Serial.println("\")");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setServer  (IP: \"" + String(customIP) + "\")" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->customIP = customIP;
 		this->customHostName = NULL;
@@ -1209,7 +1693,7 @@ private:
 	void setServer()
 	{
 		#ifdef PRINT_DEBUG_MESSAGES
-			Serial.print("ts::setServer  (default)");
+		Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setServer  (default)" , SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		this->customIP = INADDR_NONE;
 		this->customHostName = NULL;
@@ -1227,6 +1711,10 @@ private:
 	float nextWriteLongitude;
 	float nextWriteElevation;
 	int lastReadStatus;
+	String nextWriteStatus;
+	String nextWriteTwitter;
+	String nextWriteTweet;
+	String nextWriteCreatedAt;
 
 	bool connectThingSpeak()
 	{
@@ -1234,13 +1722,13 @@ private:
 		if(this->customIP == INADDR_NONE && NULL == this->customHostName)
         {
  			#ifdef PRINT_DEBUG_MESSAGES
-  			    Serial.print("               Connect to default ThingSpeak URL...");
+			Particle.publish(SPARK_PUBLISH_TOPIC, "               Connect to default ThingSpeak URL..." , SPARK_PUBLISH_TTL, PRIVATE);
 			#endif
 			connectSuccess = client->connect(THINGSPEAK_URL,THINGSPEAK_PORT_NUMBER);
             if(!connectSuccess)
             {
  			    #ifdef PRINT_DEBUG_MESSAGES
-  			        Serial.print("Failed. Try default IP...");
+				Particle.publish(SPARK_PUBLISH_TOPIC, "Failed. Try default IP..." , SPARK_PUBLISH_TTL, PRIVATE);
 			    #endif
 			    connectSuccess = client->connect(THINGSPEAK_IPADDRESS,THINGSPEAK_PORT_NUMBER);
             }
@@ -1251,7 +1739,7 @@ private:
 		    {
 			    // Connect to the server on port 80 (HTTP) at the customIP address
 			    #ifdef PRINT_DEBUG_MESSAGES
-  			      Serial.print("               Connect to ");Serial.print(this->customIP);Serial.print("...");
+				Particle.publish(SPARK_PUBLISH_TOPIC, "               Connect to " + String(this->customIP) + "..." , SPARK_PUBLISH_TTL, PRIVATE);  			     
 			    #endif
 			    connectSuccess = client->connect(this->customIP,this->port);
 		    }
@@ -1284,21 +1772,21 @@ private:
         {
 		    if (!this->client->print("Host: ")) return false;
 		    if (!this->client->print(this->customHostName)) return false;
-		    if (!this->client->print("\n")) return false;
+		    if (!this->client->print("\r\n")) return false;
         }
         else
         {
-		    if (!this->client->print("Host: api.thingspeak.com\n")) return false;
+		    if (!this->client->print("Host: api.thingspeak.com\r\n")) return false;
         }
-		if (!this->client->print("Connection: close\n")) return false;
+		if (!this->client->print("Connection: close\r\n")) return false;
 		if (!this->client->print("User-Agent: ")) return false;
 		if (!this->client->print(TS_USER_AGENT)) return false;
-		if (!this->client->print("\n")) return false;
+		if (!this->client->print("\r\n")) return false;
 		if(NULL != APIKey)
 		{
 			if (!this->client->print("X-THINGSPEAKAPIKEY: ")) return false;
 			if (!this->client->print(APIKey)) return false;
-			if (!this->client->print("\n")) return false;
+			if (!this->client->print("\r\n")) return false;
 		}
 		return true;
 	};
@@ -1353,7 +1841,7 @@ private:
 			Particle.publish(SPARK_PUBLISH_TOPIC, "Found end of header", SPARK_PUBLISH_TTL, PRIVATE);
 		#endif
 		// This is a workaround to a bug in the Spark implementation of String
-		String tempString = client->readStringUntil('\r');
+		String tempString = client->readString();
 		response = tempString;
 		#ifdef PRINT_HTTP
 			Particle.publish(SPARK_PUBLISH_TOPIC, "Response: \"" + tempString + "\"", SPARK_PUBLISH_TTL, PRIVATE);
@@ -1395,6 +1883,10 @@ private:
 		this->nextWriteLatitude = NAN;
 		this->nextWriteLongitude = NAN;
 		this->nextWriteElevation = NAN;
+		this->nextWriteStatus = "";
+		this->nextWriteTwitter = "";
+		this->nextWriteTweet = "";
+		this->nextWriteCreatedAt = "";
 	};
 };
 
