@@ -16,7 +16,7 @@ You can visualize and do online analytics of your data on ThingSpeak using the b
 In the Particle Web IDE, click the libraries tab, find ThingSpeak, and choose "Include in App"
 
 ## Compatible Hardware:
-* Particle (Formally Spark) Core, [Photon](https://www.particle.io/prototype#photon), [Electron](https://www.particle.io/prototype#electron) and [P1] (https://www.particle.io/prototype#p0-and-p1).
+* Particle (Formally Spark) Core, [Photon](https://www.particle.io/prototype#photon), [Electron](https://www.particle.io/prototype#electron) and [P1](https://www.particle.io/prototype#p0-and-p1).
 
 ## Examples:
 
