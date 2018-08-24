@@ -1,4 +1,4 @@
-#ThingSpeak Communication Library for Particle
+# ThingSpeak Communication Library for Particle
 
 This library enables Particle hardware to write or read data to or from ThingSpeak, an open data platform for the Internet of Things with MATLAB analytics and visualization.
 
