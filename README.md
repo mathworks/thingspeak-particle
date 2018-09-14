@@ -415,7 +415,7 @@ String readCreatedAt (channelNumber)
 | readAPIKey    | const char *  | Read API key associated with the channel. If you share code with others, do not share this key |
 
 ### Returns
-Returns the created-st timestamp as a String.
+Returns the created-at timestamp as a String.
 
 ## readRaw
 Read a raw response from a channel. Include the readAPIKey to read a private channel.
