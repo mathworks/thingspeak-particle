@@ -400,6 +400,7 @@ String readStatus (channelNumber)
 | readAPIKey    | const char *  | Read API key associated with the channel. If you share code with others, do not share this key |
 
 ### Returns
+Returns the status field as a String.
 
 ## String readCreatedAt()
 Read the created-at timestamp associated with the latest update to a channel. Include the readAPIKey to read a private channel.
@@ -414,6 +415,7 @@ String readCreatedAt (channelNumber)
 | readAPIKey    | const char *  | Read API key associated with the channel. If you share code with others, do not share this key |
 
 ### Returns
+Returns the created-st timestamp as a String.
 
 ## readRaw
 Read a raw response from a channel. Include the readAPIKey to read a private channel.
@@ -431,6 +433,7 @@ String readRaw	(channelNumber, URLSuffix)
 | readAPIKey    | const char *  | Read API key associated with the channel. If you share code with others, do not share this key.                    |     
 
 ### Returns
+Returns the raw response from a HTTP request as a String.
 
 ## getLastReadStatus
 Get the status of the previous read.
