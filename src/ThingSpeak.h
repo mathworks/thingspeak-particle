@@ -88,13 +88,13 @@
 
 
 #ifdef PARTICLE_CORE
-	#define TS_USER_AGENT "tslib-arduino/1.3 (particle core)"
+	#define TS_USER_AGENT "tslib-arduino/1.4 (particle core)"
 #elif defined(PARTICLE_PHOTON)
-	#define TS_USER_AGENT "tslib-arduino/1.3 (particle photon)"
+	#define TS_USER_AGENT "tslib-arduino/1.4 (particle photon)"
 #elif defined(PARTICLE_ELECTRON)
-	#define TS_USER_AGENT "tslib-arduino/1.3 (particle electron)"
+	#define TS_USER_AGENT "tslib-arduino/1.4 (particle electron)"
 #elif defined(PARTICLE_P1)
-	#define TS_USER_AGENT "tslib-arduino/1.3 (particle p1)"
+	#define TS_USER_AGENT "tslib-arduino/1.4 (particle p1)"
 #endif
 #define SPARK_PUBLISH_TTL 60 // Spark "time to live" for published messages
 #define SPARK_PUBLISH_TOPIC "thingspeak-debug"
