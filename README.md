@@ -476,5 +476,5 @@ The library source includes several examples to help you get started. These are 
 * **ReadLastTemperature:** Reads the latest temperature from the public MathWorks weather station in Natick, MA on ThingSpeak.
 * **ReadPrivateChannel:** Reads the latest voltage value from a private channel on ThingSpeak.
 * **ReadWeatherStation:** Reads the latest weather data from the public MathWorks weather station in Natick, MA on ThingSpeak.
-* **WriteMultipleVoltages:** Reads analog voltages from pins 0-7 and writes them to the 8 fields of a channel on ThingSpeak.
+* **WriteMultipleVoltages:** Reads analog voltages from pins A1-A6 and writes them to the fields of a channel on ThingSpeak.
 * **WriteVoltage:** Reads an analog voltage from pin 0, converts to a voltage, and writes it to a channel on ThingSpeak.
