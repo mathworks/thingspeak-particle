@@ -126,6 +126,57 @@ void loop(){
 }
 ```
 
+```
+## Read multiple fields from last feed ingested in a Channel
+```
+#include "ThingSpeak.h"
+
+TCPClient client;
+
+unsigned long weatherStationChannelNumber = 12397;
+
+void setup() { 
+  ThingSpeak.begin(client);
+}
+
+void loop(){
+
+  // Read latest measurements from the weather station in Natick, MA
+  // when reading from a private channel, pass the channel  ReadApi key
+  statusCodeRead = ThingSpeak.readMultipleFields(weatherStationChannelNumber);
+	
+  // Wind Direction (North = 0 degrees)
+  float windDirection = ThingSpeak.getFieldAsFloat(1);
+
+  // Wind Speed (mph)
+  float windSpeed = ThingSpeak.getFieldAsFloat(2);
+
+  // Humidity (%)
+  float humidity = ThingSpeak.getFieldAsFloat(3);
+
+  // Temperature (F)
+	float temperature = ThingSpeak.getFieldAsFloat(4);
+
+  // Rain (Inches/minute)
+  float rain = ThingSpeak.getFieldAsFloat(5);
+
+  // Pressure ("Hg)
+	float pressure = ThingSpeak.getFieldAsFloat(6);
+
+  // Power Level (V)
+  float powerLevel = ThingSpeak.getFieldAsFloat(7);
+
+  // Light Intensity
+	float pressure = ThingSpeak.getFieldAsFloat(8);
+	
+	Particle.publish("thingspeak-weather", "Current weather conditions in Natick: ",60,PRIVATE);
+	Particle.publish("thingspeak-weather", String(temperature) + " degrees F, " + String(humidity) + "% humidity",60,PRIVATE); 
+	
+	delay(60000); // Note that the weather station only updates once a minute
+
+}
+```
+
 # <a id="documentation">Documentation</a>
 
 ## begin
@@ -437,8 +488,132 @@ Get the status of the previous read.
 int getLastReadStatus ()	
 ```
 
-### Returns
-See Return Codes below for other possible return values.
+## readMultipleFields
+Read all the field values, status message, location coordinates, and created-at timestamp associated with the latest feed to a ThingSpeak channel.
+The values are stored in a struct, which holds all the 8 fields data, along with status, latitude, longitude, elevation and createdAt associated with the latest field.
+To retrieve all the values, invoke these functions in order:
+1. readMultipleFields
+2. readMultipleFields helper functions
+
+### 1. readMultipleFields
+
+```
+int readMultipleFields (channelNumber, readAPIKey)		
+```
+```
+int readMultipleFields (channelNumber)		
+```
+
+| Parameter     | Type          | Description                                                                                    |          
+|---------------|:--------------|:-----------------------------------------------------------------------------------------------|
+| channelNumber | unsigned long | Channel number |
+| readAPIKey    | const char *  | Read API key associated with the channel. If you share code with others, do not share this key |
+
+#### Returns
+HTTP status code of 200 if successful
+
+
+#### 2. readMultipleFields helper functions
+
+#### a. getFieldAsString
+
+```
+String getFieldAsString (field)		
+```
+
+| Parameter     | Type          | Description                                                                                    |          
+|---------------|:--------------|:-----------------------------------------------------------------------------------------------|
+| field         | unsigned int  | Field number (1-8) within the channel to read from.    
+
+#### Returns
+Value read (UTF8 string), empty string if there is an error, or old value read (UTF8 string) if invoked before readMultipleFields().
+
+
+#### b. getFieldAsFloat
+
+```
+float getFieldAsFloat (field)		
+```
+
+| Parameter     | Type          | Description                                                                                    |          
+|---------------|:--------------|:-----------------------------------------------------------------------------------------------|
+| field         | unsigned int  | Field number (1-8) within the channel to read from.    
+
+#### Returns
+Value read, 0 if the field is text or there is an error, or old value read if invoked before readMultipleFields().
+
+#### c. getFieldAsLong
+
+```
+long getFieldAsLong (field)		
+```
+
+| Parameter     | Type          | Description                                                                                    |          
+|---------------|:--------------|:-----------------------------------------------------------------------------------------------|
+| field         | unsigned int  | Field number (1-8) within the channel to read from.    
+
+#### Returns
+Value read, 0 if the field is text or there is an error, or old value read if invoked before readMultipleFields().
+
+#### d. getFieldAsInt
+
+```
+int getFieldAsInt (field)		
+```
+
+| Parameter     | Type          | Description                                                                                    |          
+|---------------|:--------------|:-----------------------------------------------------------------------------------------------|
+| field         | unsigned int  | Field number (1-8) within the channel to read from.    
+
+#### Returns
+Value read, 0 if the field is text or there is an error, or old value read if invoked before readMultipleFields().
+
+#### e. getStatus
+
+```
+String getStatus ()		
+```
+
+#### Returns
+Value read (UTF8 string). An empty string is returned if there was no status written to the channel or in case of an error.
+
+#### f. getLatitude
+
+```
+String getLatitude ()	
+```
+
+#### Returns
+Value read (UTF8 string). An empty string is returned if there was no latitude written to the channel or in case of an error.
+
+#### g. getLongitude
+
+```
+String getLongitude	()
+```
+
+#### Returns
+Value read (UTF8 string). An empty string is returned if there was no longitude written to the channel or in case of an error.
+
+#### h. getElevation
+
+```
+String getElevation ()	
+```
+
+#### Returns
+Value read (UTF8 string). An empty string is returned if there was no elevation written to the channel or in case of an error.
+
+#### i. getCreatedAt
+
+```
+String getCreatedAt ()
+```
+
+#### Returns
+Value read (UTF8 string). An empty string is returned if there was no created-at timestamp written to the channel or in case of an error.
+
+
 
 ## Return Codes
 | Value | Meaning                                                                                   |
