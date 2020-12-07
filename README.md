@@ -126,7 +126,6 @@ void loop(){
 }
 ```
 
-```
 ## Read multiple fields from last feed ingested in a Channel
 ```
 #include "ThingSpeak.h"
