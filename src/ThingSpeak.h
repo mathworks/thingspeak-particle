@@ -38,6 +38,10 @@
     #elif PLATFORM_ID == 13
         #define PARTICLE_BORON
         #define PARTICLE_PHOTONELECTRON
+    #elif PLATFORM_ID == 23
+        #define PARTICLE_BSOM
+    #elif PLATFORM_ID == 25
+        #define PARTICLE_B5SOM
     #elif PLATFORM_ID == 14
         #error TCP connection are not supported on mesh nodes (Xenon), only mesh gateways (Argon, Boron)
     #else
