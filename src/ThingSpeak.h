@@ -6,9 +6,9 @@
 
   ThingSpeak ( https://www.thingspeak.com ) is an analytic IoT platform service that allows you to aggregate, visualize and analyze live data streams in the cloud.
   
-  Copyright 2020, The MathWorks, Inc.
+  Copyright 2020-2025, The MathWorks, Inc.
  
-  See the accompaning licence file for licensing information.
+  See the accompanying license file for licensing information.
 */
 
 //#define PRINT_DEBUG_MESSAGES
@@ -17,7 +17,7 @@
 #ifndef ThingSpeak_h
     #define ThingSpeak_h
 
-    #define TS_VER "2.0"
+    #define TS_VER "1.6.0"
 
 
     // Create platform defines for Particle devices
@@ -452,7 +452,6 @@
         Notes:
         To record a status message on a write, call setStatus() then call writeFields().
         Use status to provide additonal details when writing a channel update.
-        Additonally, status can be used by the ThingTweet App to send a message to Twitter.
         */
         int setStatus(String status)
         {
@@ -463,40 +462,8 @@
             if(status.length() > FIELDLENGTH_MAX) return TS_ERR_OUT_OF_RANGE;
             this->nextWriteStatus = status;
             return TS_OK_SUCCESS;
-        }
-        
-
-        /*
-        Function: setTwitterTweet
-        
-        Summary:
-        Set the Twitter account and message to use for an update to be tweeted.
-        
-        Parameters:
-        twitter - Twitter account name as a String.
-        tweet - Twitter message as a String (UTF-8) limited to 140 character.
-        
-        Returns:
-        Code of 200 if successful.
-        Code of -101 if string is too long (> 255 bytes)
-        
-        Notes:
-        To send a message to twitter call setTwitterTweet() then call writeFields().
-        Prior to using this feature, a twitter account must be linked to your ThingSpeak account. Do this by logging into ThingSpeak and going to Apps, then ThingTweet and clicking Link Twitter Account.
-        */
-        int setTwitterTweet(String twitter, String tweet){
-            #ifdef PRINT_DEBUG_MESSAGES
-                Particle.publish(SPARK_PUBLISH_TOPIC, "ts::setTwitter(twitter: " + twitter + ", tweet: " + tweet + ")" , SPARK_PUBLISH_TTL, PRIVATE);
-            #endif
-            // Max # bytes for ThingSpeak field is 255 (UTF-8)
-            if((twitter.length() > FIELDLENGTH_MAX) || (tweet.length() > FIELDLENGTH_MAX)) return TS_ERR_OUT_OF_RANGE;
-            
-            this->nextWriteTwitter = twitter;
-            this->nextWriteTweet = tweet;
-            
-            return TS_OK_SUCCESS;
-        }
-        
+        }       
+       
         
         /*
         Function: setCreatedAt
@@ -618,28 +585,6 @@
                 postMessage = postMessage + String("status=") + escapeUrl(this->nextWriteStatus);
                 fFirstItem = false;
                 this->nextWriteStatus = "";
-            }
-            
-            if(this->nextWriteTwitter.length() > 0)
-            {
-                if(!fFirstItem)
-                {
-                    postMessage = postMessage + String("&");
-                }
-                postMessage = postMessage + String("twitter=") + escapeUrl(this->nextWriteTwitter);
-                fFirstItem = false;
-                this->nextWriteTwitter = "";
-            }
-            
-            if(this->nextWriteTweet.length() > 0)
-            {
-                if(!fFirstItem)
-                {
-                    postMessage = postMessage + String("&");
-                }
-                postMessage = postMessage + String("tweet=") + escapeUrl(this->nextWriteTweet);
-                fFirstItem = false;
-                this->nextWriteTweet = "";
             }
             
             if(this->nextWriteCreatedAt.length() > 0)
@@ -1501,8 +1446,6 @@
         float nextWriteElevation;
         int lastReadStatus;
         String nextWriteStatus;
-        String nextWriteTwitter;
-        String nextWriteTweet;
         String nextWriteCreatedAt;
         feed lastFeed;
 
@@ -1552,7 +1495,7 @@
 
         int getHTTPResponse(String & response)
         {
-            long startWaitForResponseAt = millis();
+            unsigned long startWaitForResponseAt = millis();
             while(client->available() == 0 && millis() - startWaitForResponseAt < TIMEOUT_MS_SERVERRESPONSE)
             {
                 delay(100);
@@ -1643,8 +1586,6 @@
             this->nextWriteLongitude = NAN;
             this->nextWriteElevation = NAN;
             this->nextWriteStatus = "";
-            this->nextWriteTwitter = "";
-            this->nextWriteTweet = "";
             this->nextWriteCreatedAt = "";
         };
     };
